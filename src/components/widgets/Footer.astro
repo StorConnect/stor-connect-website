@@ -102,3 +102,23 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
     </div>
   </div>
 </footer>
+
+<script>
+  // Cookie-Einstellungen Link Handler
+  document.addEventListener('DOMContentLoaded', () => {
+    // Finde alle Links die auf #cookie-settings verweisen
+    const cookieLinks = document.querySelectorAll('a[href="#cookie-settings"]');
+    
+    cookieLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // Zeige den Cookie-Banner wieder an
+        const banner = document.getElementById('stor-cookie-banner');
+        if (banner) {
+          banner.style.display = 'block';
+        }
+      });
+    });
+  });
+</script>

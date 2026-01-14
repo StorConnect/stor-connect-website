@@ -62,6 +62,7 @@ export const footerData = {
       links: [
         { text: 'Impressum', href: getPermalink('/impressum') },
         { text: 'Datenschutz', href: getPermalink('/datenschutz') },
+        { text: 'Cookie-Einstellungen', href: '#cookie-settings' },
       ],
     },
   ],
