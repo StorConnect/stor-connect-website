@@ -1,12 +1,10 @@
 ---
-// Cookie Consent Banner mit Klaro
-// Für eine vollständige Implementierung siehe: https://klaro.org/docs
+// Cookie Consent mit lokalem Klaro (npm package)
+import 'klaro/dist/klaro.css';
 ---
 
-<link rel="stylesheet" href="https://cdn.kiprotect.com/klaro/v0.7/klaro.min.css" />
-
 <script is:inline>
-  // Klaro Konfiguration für STOR Connect GmbH
+  // Klaro Config MUSS VOR dem Klaro-Script definiert werden
   window.klaroConfig = {
     version: 1,
     elementID: 'klaro',
@@ -25,11 +23,11 @@
       de: {
         consentModal: {
           title: 'Cookies & Datenschutz',
-          description: 'Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Sie können Ihre Einwilligung jederzeit widerrufen.',
+          description: 'Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern.',
         },
         consentNotice: {
-          changeDescription: 'Es gab Änderungen seit Ihrem letzten Besuch, bitte aktualisieren Sie Ihre Einwilligung.',
-          description: 'Wir verwenden Cookies und andere Technologien auf unserer Website. Einige davon sind essenziell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern. Personenbezogene Daten können verarbeitet werden (z. B. IP-Adressen). Sie können Ihre Einwilligung jederzeit widerrufen oder ändern.',
+          changeDescription: 'Es gab Änderungen seit Ihrem letzten Besuch.',
+          description: 'Wir verwenden Cookies und andere Technologien auf unserer Website. Einige davon sind essenziell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern.',
           learnMore: 'Mehr erfahren',
         },
         ok: 'Alle akzeptieren',
@@ -46,7 +44,7 @@
           },
           optOut: {
             title: '(Opt-Out)',
-            description: 'Diese Anwendung wird standardmäßig geladen (Sie können sie jedoch deaktivieren).'
+            description: 'Diese Anwendung wird standardmäßig geladen.'
           },
           required: {
             title: '(immer erforderlich)',
@@ -63,7 +61,7 @@
       {
         name: 'necessary',
         title: 'Notwendige Cookies',
-        description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
+        description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich.',
         purposes: ['essential'],
         required: true,
         default: true,
@@ -71,22 +69,15 @@
       {
         name: 'analytics',
         title: 'Analyse-Cookies',
-        description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren. Alle Informationen werden anonym gesammelt.',
+        description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.',
         purposes: ['analytics'],
         required: false,
         default: false,
-        onAccept: function() {
-          // Hier Google Analytics oder andere Analytics-Tools laden
-          console.log('Analytics Cookies akzeptiert');
-        },
-        onDecline: function() {
-          console.log('Analytics Cookies abgelehnt');
-        }
       },
       {
         name: 'functional',
         title: 'Funktionale Cookies',
-        description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung wie Videos und Live-Chat.',
+        description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.',
         purposes: ['functional'],
         required: false,
         default: false,
@@ -95,21 +86,32 @@
   };
 </script>
 
-<script defer data-config="klaroConfig" src="https://cdn.kiprotect.com/klaro/v0.7/klaro.min.js"></script>
+<script>
+  // Klaro vom npm package importieren und initialisieren
+  import * as Klaro from 'klaro';
+  
+  // Warte bis DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      Klaro.setup(window.klaroConfig);
+    });
+  } else {
+    Klaro.setup(window.klaroConfig);
+  }
+</script>
 
 <style is:global>
-  /* Anpassungen für das STOR Connect Design */
-  .klaro .cookie-modal,
-  .klaro .cookie-notice {
-    font-family: inherit;
-  }
-  
-  /* STOR Connect CI Rot für Cookie-Banner Buttons */
+  /* STOR Connect CI Rot für Cookie-Banner */
   .klaro .cm-btn.cm-btn-success {
-    background-color: #E01D22;
+    background-color: #E01D22 !important;
   }
   
   .klaro .cm-btn.cm-btn-success:hover {
-    background-color: #C9302C;
+    background-color: #C9302C !important;
+  }
+  
+  .klaro .cookie-modal,
+  .klaro .cookie-notice {
+    font-family: inherit;
   }
 </style>
