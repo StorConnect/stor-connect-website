@@ -78,13 +78,16 @@
       <button id="stor-accept-all" class="stor-btn stor-btn-primary">
         Alle Cookies akzeptieren
       </button>
+      <button id="stor-customize" class="stor-btn stor-btn-secondary">
+        Benutzerdefiniert
+      </button>
       <button id="stor-accept-necessary" class="stor-btn stor-btn-secondary">
         Nur notwendige
       </button>
     </div>
   </div>
   
-  <!-- Details Modal (wenn "Cookie Richtlinien" geklickt) -->
+  <!-- Details Modal (wenn "Cookie Richtlinien" oder "Benutzerdefiniert" geklickt) -->
   <div id="stor-cookie-details-modal" class="stor-cookie-modal" style="display: none;">
     <div class="stor-modal-content">
       <div class="stor-modal-header">
@@ -155,9 +158,16 @@
     const detailsModal = document.getElementById('stor-cookie-details-modal');
     const acceptAllBtn = document.getElementById('stor-accept-all');
     const acceptNecessaryBtn = document.getElementById('stor-accept-necessary');
+    const customizeBtn = document.getElementById('stor-customize');
     const detailsBtn = document.getElementById('stor-cookie-details');
     const modalClose = document.getElementById('stor-modal-close');
     const modalSave = document.getElementById('stor-modal-save');
+    
+    // Null-checks für alle Elemente
+    if (!banner || !detailsModal) {
+      console.error('Cookie banner elements not found');
+      return;
+    }
     
     // Klaro initialisieren (nur Logic, kein UI)
     const manager = Klaro.getManager(window.klaroConfig);
@@ -169,7 +179,7 @@
     }
     
     // "Alle akzeptieren" Button
-    acceptAllBtn.addEventListener('click', () => {
+    acceptAllBtn?.addEventListener('click', () => {
       manager.updateConsent('necessary', true);
       manager.updateConsent('analytics', true);
       manager.updateConsent('functional', true);
@@ -177,8 +187,21 @@
       banner.style.display = 'none';
     });
     
+    // NEU: "Benutzerdefiniert" Button - Öffnet Details Modal
+    customizeBtn?.addEventListener('click', () => {
+      detailsModal.style.display = 'flex';
+      
+      // Toggle-States aus gespeicherten Consents laden
+      const consents = manager.consents;
+      const analyticsToggle = document.getElementById('stor-toggle-analytics');
+      const marketingToggle = document.getElementById('stor-toggle-marketing');
+      
+      if (analyticsToggle) analyticsToggle.checked = consents.analytics || false;
+      if (marketingToggle) marketingToggle.checked = consents.functional || false;
+    });
+    
     // "Nur notwendige" Button
-    acceptNecessaryBtn.addEventListener('click', () => {
+    acceptNecessaryBtn?.addEventListener('click', () => {
       manager.updateConsent('necessary', true);
       manager.updateConsent('analytics', false);
       manager.updateConsent('functional', false);
@@ -187,24 +210,30 @@
     });
     
     // "Cookie Richtlinien" - Details Modal öffnen
-    detailsBtn.addEventListener('click', () => {
+    detailsBtn?.addEventListener('click', () => {
       detailsModal.style.display = 'flex';
       
       // Toggle-States aus gespeicherten Consents laden
       const consents = manager.consents;
-      document.getElementById('stor-toggle-analytics').checked = consents.analytics || false;
-      document.getElementById('stor-toggle-marketing').checked = consents.functional || false;
+      const analyticsToggle = document.getElementById('stor-toggle-analytics');
+      const marketingToggle = document.getElementById('stor-toggle-marketing');
+      
+      if (analyticsToggle) analyticsToggle.checked = consents.analytics || false;
+      if (marketingToggle) marketingToggle.checked = consents.functional || false;
     });
     
     // Modal schließen
-    modalClose.addEventListener('click', () => {
+    modalClose?.addEventListener('click', () => {
       detailsModal.style.display = 'none';
     });
     
     // "Auswahl speichern" im Modal
-    modalSave.addEventListener('click', () => {
-      const analyticsChecked = document.getElementById('stor-toggle-analytics').checked;
-      const marketingChecked = document.getElementById('stor-toggle-marketing').checked;
+    modalSave?.addEventListener('click', () => {
+      const analyticsToggle = document.getElementById('stor-toggle-analytics');
+      const marketingToggle = document.getElementById('stor-toggle-marketing');
+      
+      const analyticsChecked = analyticsToggle?.checked || false;
+      const marketingChecked = marketingToggle?.checked || false;
       
       manager.updateConsent('necessary', true);
       manager.updateConsent('analytics', analyticsChecked);
@@ -230,18 +259,18 @@
    Eigenes Design ohne Klaro CSS
    ======================================== */
 
-/* BACKDROP - Dezenter Overlay */
+/* BACKDROP - Weniger aggressiv (25% statt 40%) */
 .stor-cookie-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.25);
   z-index: 9998;
 }
 
-/* BANNER CONTAINER */
+/* BANNER CONTAINER - FIXED: Mittig am Bottom */
 .stor-cookie-banner {
   position: fixed;
   top: 0;
@@ -253,32 +282,38 @@
   align-items: flex-end;
   justify-content: center;
   pointer-events: none;
+  padding: 0 1rem 2rem 1rem;
 }
 
 .stor-cookie-banner * {
   pointer-events: auto;
 }
 
-/* COOKIE CONTENT BOX */
+/* COOKIE CONTENT BOX - FIXED: Immer zentriert */
 .stor-cookie-content {
   position: relative;
   background: white;
-  border-radius: 0;
+  border-radius: 12px;
   padding: 1.5rem;
   width: 100%;
-  max-width: 100%;
+  max-width: 550px;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
   font-family: 'Inter Variable', system-ui, sans-serif;
   animation: slideUpBanner 0.3s ease-out;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
 }
 
-/* DESKTOP: Zentrierte Box am Bottom */
-@media (min-width: 768px) {
+/* Mobile: Kleinere Breite aber zentriert */
+@media (max-width: 767px) {
+  .stor-cookie-banner {
+    padding: 0 0.5rem 1rem 0.5rem;
+  }
+  
   .stor-cookie-content {
-    max-width: 550px;
+    max-width: calc(100% - 1rem);
+    padding: 1.25rem;
     border-radius: 12px;
-    margin-bottom: 2rem;
-    border: 1px solid #e5e7eb;
   }
 }
 
@@ -345,23 +380,18 @@
   color: #E01D22;
 }
 
-/* BUTTONS */
+/* BUTTONS - FIXED: Layout für 3 Buttons */
 .stor-cookie-buttons {
   display: flex;
-  gap: 0.75rem;
-  flex-direction: column;
-}
-
-@media (min-width: 768px) {
-  .stor-cookie-buttons {
-    flex-direction: row;
-  }
+  gap: 0.5rem;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .stor-btn {
-  padding: 0.875rem 1.5rem;
+  padding: 0.875rem 1.25rem;
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   border: none;
   cursor: pointer;
@@ -369,11 +399,25 @@
   font-family: inherit;
   flex: 1;
   min-width: 0;
+  white-space: nowrap;
 }
 
+/* Mobile: 3 Buttons untereinander */
 @media (max-width: 767px) {
+  .stor-cookie-buttons {
+    flex-direction: column;
+  }
+  
   .stor-btn {
     width: 100%;
+    padding: 1rem 1.5rem;
+  }
+}
+
+/* Desktop: Kleinere Gaps für 3 Buttons */
+@media (min-width: 768px) {
+  .stor-cookie-buttons {
+    gap: 0.75rem;
   }
 }
 
@@ -569,11 +613,6 @@
 
 /* MOBILE OPTIMIERUNGEN */
 @media (max-width: 767px) {
-  .stor-cookie-content {
-    padding: 1.25rem;
-    border-radius: 0;
-  }
-  
   .stor-cookie-title {
     font-size: 1.1rem;
   }
