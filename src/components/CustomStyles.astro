@@ -25,19 +25,21 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* STOR Connect CI Farben */
+    --aw-color-primary: rgb(224 29 34);      /* #E01D22 - STOR Rot */
+    --aw-color-secondary: rgb(201 48 44);    /* #C9302C - Dunkleres Rot für Hover */
+    --aw-color-accent: rgb(224 29 34);       /* #E01D22 - STOR Rot */
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-text-heading: rgb(54 69 79);  /* #36454F - STOR Dunkelgrau */
+    --aw-color-text-default: rgb(54 69 79);  /* #36454F - STOR Dunkelgrau */
+    --aw-color-text-muted: rgb(54 69 79 / 66%);
+    --aw-color-bg-page: rgb(255 255 255);    /* #FFFFFF - Weiß */
 
     --aw-color-bg-page-dark: rgb(3 6 32);
 
     ::selection {
-      background-color: lavender;
+      background-color: rgba(224, 29, 34, 0.2);  /* STOR Rot mit 20% Transparenz */
+      color: rgb(54, 69, 79);                     /* STOR Dunkelgrau */
     }
   }
 
@@ -46,9 +48,10 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* STOR Connect CI Farben - Dark Mode */
+    --aw-color-primary: rgb(224 29 34);      /* #E01D22 - STOR Rot */
+    --aw-color-secondary: rgb(201 48 44);    /* #C9302C - Dunkleres Rot */
+    --aw-color-accent: rgb(224 29 34);       /* #E01D22 - STOR Rot */
 
     --aw-color-text-heading: rgb(247, 248, 248);
     --aw-color-text-default: rgb(229 236 246);
@@ -56,8 +59,8 @@ import '@fontsource-variable/inter';
     --aw-color-bg-page: rgb(3 6 32);
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgba(224, 29, 34, 0.3);  /* STOR Rot für Dark Mode */
+      color: rgb(255, 255, 255);
     }
   }
 </style>

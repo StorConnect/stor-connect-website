@@ -12,6 +12,10 @@ export default {
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
         muted: 'var(--aw-color-text-muted)',
+        // STOR Connect CI Farben für direkten Zugriff
+        'stor-red': '#E01D22',
+        'stor-red-dark': '#C9302C',
+        'stor-gray': '#36454F',
       },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
