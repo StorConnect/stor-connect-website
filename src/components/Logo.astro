@@ -61,10 +61,19 @@ const spinnerSizes = {
     </span>
   )}
   
+  <!-- Light Mode Logo (grau) -->
   <img 
     src="/logo.svg" 
     alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
-    class="logo-image"
+    class="logo-image dark:hidden"
+    loading="eager"
+  />
+  
+  <!-- Dark Mode Logo (weiß) -->
+  <img 
+    src="/logo-white.svg" 
+    alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
+    class="logo-image hidden dark:block"
     loading="eager"
   />
 </a>
