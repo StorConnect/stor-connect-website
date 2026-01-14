@@ -1,0 +1,114 @@
+---
+// Cookie Consent Banner mit Klaro
+// Für eine vollständige Implementierung siehe: https://klaro.org/docs
+---
+
+<link rel="stylesheet" href="https://cdn.kiprotect.com/klaro/v0.7/klaro.min.css" />
+
+<script is:inline>
+  // Klaro Konfiguration für STOR Connect GmbH
+  window.klaroConfig = {
+    version: 1,
+    elementID: 'klaro',
+    storageMethod: 'cookie',
+    cookieName: 'klaro-consent',
+    cookieExpiresAfterDays: 365,
+    default: false,
+    mustConsent: false,
+    acceptAll: true,
+    hideDeclineAll: false,
+    hideLearnMore: false,
+    
+    lang: 'de',
+    
+    translations: {
+      de: {
+        consentModal: {
+          title: 'Cookies & Datenschutz',
+          description: 'Wir verwenden Cookies, um Ihre Erfahrung auf unserer Website zu verbessern. Sie können Ihre Einwilligung jederzeit widerrufen.',
+        },
+        consentNotice: {
+          changeDescription: 'Es gab Änderungen seit Ihrem letzten Besuch, bitte aktualisieren Sie Ihre Einwilligung.',
+          description: 'Wir verwenden Cookies und andere Technologien auf unserer Website. Einige davon sind essenziell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern. Personenbezogene Daten können verarbeitet werden (z. B. IP-Adressen). Sie können Ihre Einwilligung jederzeit widerrufen oder ändern.',
+          learnMore: 'Mehr erfahren',
+        },
+        ok: 'Alle akzeptieren',
+        save: 'Auswahl speichern',
+        decline: 'Nur notwendige',
+        close: 'Schließen',
+        acceptAll: 'Alle akzeptieren',
+        acceptSelected: 'Auswahl speichern',
+        privacyPolicyUrl: '/datenschutz',
+        app: {
+          disableAll: {
+            title: 'Alle Anwendungen umschalten',
+            description: 'Verwenden Sie diesen Schalter, um alle Anwendungen zu aktivieren/deaktivieren.'
+          },
+          optOut: {
+            title: '(Opt-Out)',
+            description: 'Diese Anwendung wird standardmäßig geladen (Sie können sie jedoch deaktivieren).'
+          },
+          required: {
+            title: '(immer erforderlich)',
+            description: 'Diese Anwendung ist immer erforderlich.'
+          },
+          purposes: 'Zwecke',
+          purpose: 'Zweck'
+        },
+        poweredBy: ''
+      }
+    },
+    
+    services: [
+      {
+        name: 'necessary',
+        title: 'Notwendige Cookies',
+        description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
+        purposes: ['essential'],
+        required: true,
+        default: true,
+      },
+      {
+        name: 'analytics',
+        title: 'Analyse-Cookies',
+        description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren. Alle Informationen werden anonym gesammelt.',
+        purposes: ['analytics'],
+        required: false,
+        default: false,
+        onAccept: function() {
+          // Hier Google Analytics oder andere Analytics-Tools laden
+          console.log('Analytics Cookies akzeptiert');
+        },
+        onDecline: function() {
+          console.log('Analytics Cookies abgelehnt');
+        }
+      },
+      {
+        name: 'functional',
+        title: 'Funktionale Cookies',
+        description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung wie Videos und Live-Chat.',
+        purposes: ['functional'],
+        required: false,
+        default: false,
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.kiprotect.com/klaro/v0.7/klaro.min.js" defer></script>
+
+<style is:global>
+  /* Anpassungen für das STOR Connect Design */
+  .klaro .cookie-modal,
+  .klaro .cookie-notice {
+    font-family: inherit;
+  }
+  
+  .klaro .cm-btn.cm-btn-success {
+    background-color: #3b82f6;
+  }
+  
+  .klaro .cm-btn.cm-btn-success:hover {
+    background-color: #2563eb;
+  }
+</style>

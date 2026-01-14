@@ -1,7 +1,7 @@
 {
-  "name": "@onwidget/astrowind",
-  "version": "1.0.0-beta.52",
-  "description": "AstroWind: A free template using Astro 5.0 and Tailwind CSS. Astro starter theme.",
+  "name": "@storconnect/website",
+  "version": "1.0.0",
+  "description": "STOR Connect GmbH - Professionelle Baudienstleistungen in Wien: Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung.",
   "type": "module",
   "private": true,
   "engines": {
@@ -30,6 +30,7 @@
     "astro": "^5.12.9",
     "astro-embed": "^0.9.0",
     "astro-icon": "^1.1.5",
+    "klaro": "^0.7.21",
     "limax": "4.1.0",
     "lodash.merge": "^4.6.2",
     "unpic": "^4.1.3"

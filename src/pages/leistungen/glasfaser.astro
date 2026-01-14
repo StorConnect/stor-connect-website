@@ -1,0 +1,161 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Glasfaserverlegung & Montage - STOR Connect GmbH',
+  description: 'Professionelle Glasfaserinfrastruktur in Wien: FTTH/FTTB-Verlegung, Mikrotrenching und Spleißarbeiten. Zukunftssichere Breitbandanbindung.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
+  <Hero
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Glasfaserverlegung STOR Connect' }}
+  >
+    <Fragment slot="title">
+      Glasfaserverlegung & <span class="text-accent dark:text-white">Montage</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Professionelle Installation von Glasfaserinfrastruktur für zukunftssichere Breitbandanbindung. Von der Planung bis zur Inbetriebnahme.
+    </Fragment>
+  </Hero>
+
+  <!-- Leistungsübersicht -->
+  <Features
+    id="leistungen"
+    title="Unsere Glasfaser-Leistungen"
+    subtitle="Komplettlösungen für Glasfaserinfrastruktur - vom Backbone bis zum Hausanschluss"
+    items={[
+      {
+        title: 'Glasfaser-Tiefbau',
+        description: 'Verlegung von Glasfaserkabeln in Kabelkanälen, Leerrohren und Mikrotrenches.',
+        icon: 'tabler:plug-connected',
+      },
+      {
+        title: 'FTTH/FTTB-Verlegung',
+        description: 'Fiber to the Home/Building - Glasfaser bis ins Gebäude für maximale Bandbreite.',
+        icon: 'tabler:home-signal',
+      },
+      {
+        title: 'Mikrotrenching',
+        description: 'Platzsparende und kosteneffiziente Verlegemethode mit minimaler Störung.',
+        icon: 'tabler:topology-complex',
+      },
+      {
+        title: 'Kabelzug & Einblasen',
+        description: 'Professionelles Einziehen und Einblasen von Glasfaserkabeln in Leerrohre.',
+        icon: 'tabler:ripple',
+      },
+      {
+        title: 'Spleißarbeiten',
+        description: 'Präzises Spleißen von Glasfasern durch zertifizierte Fachkräfte.',
+        icon: 'tabler:plug-connected',
+      },
+      {
+        title: 'Montage & Inbetriebnahme',
+        description: 'Installation von Verteilern, Muffen und Abschlussgeräten bis zur Inbetriebnahme.',
+        icon: 'tabler:settings',
+      },
+    ]}
+  />
+
+  <!-- Prozess -->
+  <Steps
+    title="Unser Glasfaser-Prozess"
+    subtitle="Von der Trassierung bis zur betriebsbereiten Glasfaserverbindung"
+    items={[
+      {
+        title: 'Schritt 1: <span class="font-medium">Planung & Trassierung</span>',
+        description:
+          'Detaillierte Planung der Trassenführung, Abstimmung mit Netzbetreibern und Behörden.',
+        icon: 'tabler:route',
+      },
+      {
+        title: 'Schritt 2: <span class="font-medium">Tiefbau oder Mikrotrenching</span>',
+        description:
+          'Herstellung der Trasse durch konventionellen Tiefbau oder modernes Mikrotrenching.',
+        icon: 'tabler:tractor',
+      },
+      {
+        title: 'Schritt 3: <span class="font-medium">Glasfaserverlegung</span>',
+        description:
+          'Fachgerechte Verlegung der Glasfaserkabel mit Einziehen oder Einblasen in Leerrohre.',
+        icon: 'tabler:arrow-down',
+      },
+      {
+        title: 'Schritt 4: <span class="font-medium">Spleißen & Dokumentation</span>',
+        description:
+          'Präzises Spleißen der Fasern, Messungen und lückenlose Dokumentation aller Verbindungen.',
+        icon: 'tabler:checklist',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Glasfaser Prozess',
+    }}
+  />
+
+  <!-- Vorteile -->
+  <Content
+    title="Warum STOR Connect für Ihre Glasfaser?"
+    items={[
+      {
+        title: 'Spezialisiert auf Glasfaser',
+        description: 'Umfassende Expertise in allen Bereichen der Glasfaserinfrastruktur.',
+      },
+      {
+        title: 'Moderne HDD-Technik',
+        description: 'Einsatz von Spülbohrtechnik für schonende Trassenherstellung.',
+      },
+      {
+        title: 'Zertifizierte Spleißer',
+        description: 'Qualifizierte Fachkräfte mit Herstellerzertifizierungen für Spleißarbeiten.',
+      },
+      {
+        title: 'Lückenlose Dokumentation',
+        description: 'Vollständige Dokumentation aller Fasern, Muffen und Messpunkte.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Vorteile Glasfaser',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Glasfaser-Expertise
+      </h3>
+      Als spezialisiertes Unternehmen für Glasfaserinfrastruktur realisieren wir Ihr Projekt von A bis Z - professionell und zukunftssicher.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Glasfaser-Projekt anfragen',
+        href: '/kontakt',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Bereit für<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"> Glasfaser-Highspeed?</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Kontaktieren Sie uns für Ihr Glasfaserprojekt. <br class="hidden md:inline" />
+      Wir beraten Sie umfassend und erstellen ein maßgeschneidertes Konzept.
+    </Fragment>
+  </CallToAction>
+</Layout>

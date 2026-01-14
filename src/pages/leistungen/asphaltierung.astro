@@ -1,0 +1,161 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Asphaltierung & Straßenbau - STOR Connect GmbH',
+  description: 'Professionelle Asphaltarbeiten in Wien: Straßenbau, Parkplätze, Hofeinfahrten und mehr. Langlebige Qualität aus einer Hand.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
+  <Hero
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Asphaltierung STOR Connect' }}
+  >
+    <Fragment slot="title">
+      Asphaltierung & <span class="text-accent dark:text-white">Straßenbau</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Hochwertige Asphaltarbeiten für Straßen, Wege, Parkplätze und Privatflächen. Professionelle Umsetzung mit langlebiger Qualität.
+    </Fragment>
+  </Hero>
+
+  <!-- Leistungsübersicht -->
+  <Features
+    id="leistungen"
+    title="Unsere Asphaltierungs-Leistungen"
+    subtitle="Von der Straßensanierung bis zur privaten Hofeinfahrt - alles aus einer Hand"
+    items={[
+      {
+        title: 'Straßenbau und Sanierung',
+        description: 'Neubau und Sanierung von Straßen, Wegen und Verkehrsflächen nach höchsten Standards.',
+        icon: 'tabler:road',
+      },
+      {
+        title: 'Parkplatz-Asphaltierung',
+        description: 'Planung und Bau von Parkplätzen für Gewerbe, Handel und öffentliche Einrichtungen.',
+        icon: 'tabler:parking',
+      },
+      {
+        title: 'Hofeinfahrten & Zufahrtswege',
+        description: 'Hochwertige Asphaltierung privater und gewerblicher Zufahrten und Hofbereiche.',
+        icon: 'tabler:home',
+      },
+      {
+        title: 'Gehwege & Fußgängerzonen',
+        description: 'Barrierefreie Gehweggestaltung und Fußgängerbereiche mit dauerhafter Qualität.',
+        icon: 'tabler:walk',
+      },
+      {
+        title: 'Sportplätze & Freizeitflächen',
+        description: 'Spezial-Asphaltierungen für Sportanlagen, Laufbahnen und Freizeitflächen.',
+        icon: 'tabler:ball-basketball',
+      },
+      {
+        title: 'Asphalt-Reparaturen',
+        description: 'Schnelle und professionelle Reparatur von Schäden und Unebenheiten.',
+        icon: 'tabler:tool',
+      },
+    ]}
+  />
+
+  <!-- Prozess -->
+  <Steps
+    title="Unser Asphaltierungs-Prozess"
+    subtitle="Vom ersten Spatenstich bis zur fertigen Oberfläche"
+    items={[
+      {
+        title: 'Schritt 1: <span class="font-medium">Untergrundvorbereitung & Planierung</span>',
+        description:
+          'Professionelle Vorbereitung des Untergrunds, Planierung und Schaffung der optimalen Basis.',
+        icon: 'tabler:chart-line',
+      },
+      {
+        title: 'Schritt 2: <span class="font-medium">Frostschutzschicht & Tragschicht</span>',
+        description:
+          'Einbau der Frostschutzschicht und Tragschicht für dauerhafte Stabilität und Tragfähigkeit.',
+        icon: 'tabler:layers-difference',
+      },
+      {
+        title: 'Schritt 3: <span class="font-medium">Asphalteinbau</span>',
+        description:
+          'Präziser Einbau des Asphalts mit modernen Fertigern für gleichmäßige, ebene Oberflächen.',
+        icon: 'tabler:roller-skating',
+      },
+      {
+        title: 'Schritt 4: <span class="font-medium">Verdichtung & Qualitätskontrolle</span>',
+        description:
+          'Professionelle Verdichtung und abschließende Qualitätsprüfung für perfekte Ergebnisse.',
+        icon: 'tabler:checklist',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Asphaltierungs Prozess',
+    }}
+  />
+
+  <!-- Vorteile -->
+  <Content
+    title="Warum STOR Connect für Ihre Asphaltierung?"
+    items={[
+      {
+        title: 'Langlebige Qualität',
+        description: 'Hochwertige Materialien und fachgerechte Verarbeitung für maximale Haltbarkeit.',
+      },
+      {
+        title: 'Gleichmäßige Oberflächen',
+        description: 'Präzise Arbeit für ebene, komfortable und sichere Fahrflächen.',
+      },
+      {
+        title: 'Schnelle Befahrbarkeit',
+        description: 'Kurze Aushärtezeiten und minimale Ausfallzeiten Ihrer Flächen.',
+      },
+      {
+        title: 'Nachhaltige Materialien',
+        description: 'Einsatz umweltschonender und recyclingfähiger Asphaltmischungen wo möglich.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Vorteile Asphaltierung',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Asphalt in Perfektion
+      </h3>
+      Mit jahrelanger Erfahrung und modernster Technik schaffen wir langlebige Asphaltflächen, die höchsten Ansprüchen genügen.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Asphaltierung anfragen',
+        href: '/kontakt',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Bereit für Ihre<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"> Asphaltierung?</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Holen Sie sich ein kostenloses Angebot. <br class="hidden md:inline" />
+      Wir beraten Sie gerne zu allen Aspekten Ihres Asphaltprojekts.
+    </Fragment>
+  </CallToAction>
+</Layout>

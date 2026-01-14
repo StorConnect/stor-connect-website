@@ -11,6 +11,7 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
+import CookieConsent from '~/components/common/CookieConsent.astro';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
@@ -36,6 +37,36 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
 
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["LocalBusiness", "GeneralContractor"],
+        "name": "STOR Connect GmbH",
+        "description": "Baumeistergewerbe: Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung in Wien",
+        "url": "https://astrowind-two-hazel.vercel.app",
+        "email": "info@stor-bau.at",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Neubaugürtel 35/Top 44",
+          "addressLocality": "Wien",
+          "postalCode": "1150",
+          "addressCountry": "AT"
+        },
+        "areaServed": {
+          "@type": "Country",
+          "name": "Österreich"
+        },
+        "foundingDate": "2025",
+        "founder": {
+          "@type": "Person",
+          "name": "Stefan Sator"
+        },
+        "legalName": "STOR Connect GmbH",
+        "taxID": "FN 490148 g"
+      }
+    </script>
+
     <!-- Comment the line below to disable View Transitions -->
     <ClientRouter fallback="swap" />
   </head>
@@ -44,5 +75,6 @@ const { language, textDirection } = I18N;
     <slot />
 
     <BasicScripts />
+    <CookieConsent />
   </body>
 </html>

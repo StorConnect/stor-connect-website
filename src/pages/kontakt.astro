@@ -1,0 +1,101 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const metadata = {
+  title: 'Kontakt - STOR Connect GmbH',
+  description: 'Kontaktieren Sie STOR Connect GmbH für Ihr Bauproject. Wir beraten Sie gerne zu Tiefbau, Asphaltierung, Spülbohrungen und Glasfaser.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+
+  <HeroText tagline="Kontakt" title="Kontaktieren Sie uns!" />
+
+  <ContactUs
+    id="form"
+    title="Schreiben Sie uns eine Nachricht"
+    subtitle="Für schnelle Antworten besuchen Sie auch unsere FAQ-Sektion auf der Startseite. Ansonsten freut sich unser Team auf Ihre Anfrage."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Name*',
+        required: true,
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'E-Mail*',
+        required: true,
+      },
+      {
+        type: 'tel',
+        name: 'phone',
+        label: 'Telefon (optional)',
+      },
+      {
+        type: 'select',
+        name: 'subject',
+        label: 'Betreff',
+        options: [
+          { value: 'allgemein', label: 'Allgemeine Anfrage' },
+          { value: 'tiefbau', label: 'Tiefbau' },
+          { value: 'asphaltierung', label: 'Asphaltierung' },
+          { value: 'spuelbohrungen', label: 'Spülbohrungen' },
+          { value: 'glasfaser', label: 'Glasfaser' },
+        ],
+      },
+    ]}
+    textarea={{
+      label: 'Nachricht*',
+      required: true,
+    }}
+    disclaimer={{
+      label:
+        'Ich habe die <a href="/datenschutz" class="text-blue-600 hover:underline">Datenschutzerklärung</a> gelesen und akzeptiere diese.*',
+    }}
+    description="Unser Team antwortet in der Regel innerhalb von 24 Stunden."
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="So erreichen Sie uns"
+    items={[
+      {
+        title: 'Anschrift',
+        description: 'STOR Connect GmbH<br/>Neubaugürtel 35/Top 44<br/>1150 Wien<br/>Österreich',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'E-Mail',
+        description: 'info@stor-bau.at',
+        icon: 'tabler:mail',
+      },
+      {
+        title: 'Telefon',
+        description: '[PLATZHALTER - wird nachgeliefert]',
+        icon: 'tabler:phone',
+      },
+      {
+        title: 'Öffnungszeiten',
+        description: '[PLATZHALTER - wird nachgeliefert]',
+        icon: 'tabler:clock',
+      },
+      {
+        title: 'Geschäftsführung',
+        description: 'Stefan Sator',
+        icon: 'tabler:user',
+      },
+      {
+        title: 'Firmenbuchnummer',
+        description: 'FN 490148 g<br/>Handelsgericht Wien',
+        icon: 'tabler:file-certificate',
+      },
+    ]}
+  />
+</Layout>

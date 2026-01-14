@@ -1,0 +1,161 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Spülbohrungen & HDD-Technik - STOR Connect GmbH',
+  description: 'Moderne Horizontalbohrtechnik in Wien: Schonende Leitungsverlegung ohne Aufgrabungen. Präzise und umweltfreundlich.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
+  <Hero
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Spülbohrungen STOR Connect' }}
+  >
+    <Fragment slot="title">
+      Spülbohrungen & <span class="text-accent dark:text-white">HDD-Technik</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Moderne Horizontalbohrtechnik für schonende und präzise Leitungsverlegungen. Ohne Aufgrabungen - minimal invasiv und umweltfreundlich.
+    </Fragment>
+  </Hero>
+
+  <!-- Leistungsübersicht -->
+  <Features
+    id="leistungen"
+    title="Unsere Spülbohr-Leistungen"
+    subtitle="HDD-Technik (Horizontal Directional Drilling) für zukunftssichere Infrastruktur"
+    items={[
+      {
+        title: 'Horizontalspülbohrungen (HDD)',
+        description: 'Präzise gesteuerte Bohrungen für Leitungsverlegungen unter Hindernissen.',
+        icon: 'tabler:chart-arrows-vertical',
+      },
+      {
+        title: 'Leitungsverlegung unter Hindernissen',
+        description: 'Unterquerung von Straßen, Bahnlinien, Gebäuden und anderen Hindernissen.',
+        icon: 'tabler:arrow-bar-to-down',
+      },
+      {
+        title: 'Kreuzungen von Straßen & Gewässern',
+        description: 'Schonende Unterquerung ohne Beeinträchtigung des Verkehrs oder der Umwelt.',
+        icon: 'tabler:arrows-cross',
+      },
+      {
+        title: 'Minimaler Oberflächeneingriff',
+        description: 'Nur kleine Start- und Zielgruben erforderlich - keine großflächigen Aufgrabungen.',
+        icon: 'tabler:shovel',
+      },
+      {
+        title: 'Präzise Bohrsteuerung',
+        description: 'Zentimetergenaue Positionierung durch moderne Navigationssysteme.',
+        icon: 'tabler:gps',
+      },
+      {
+        title: 'Dokumentation & Vermessung',
+        description: 'Lückenlose Dokumentation und Vermessung der verlegten Leitungen.',
+        icon: 'tabler:map-pin-check',
+      },
+    ]}
+  />
+
+  <!-- Prozess -->
+  <Steps
+    title="Unser Spülbohr-Prozess"
+    subtitle="Von der Planung bis zur erfolgreichen Leitungsverlegung"
+    items={[
+      {
+        title: 'Schritt 1: <span class="font-medium">Vermessung & Trassierung</span>',
+        description:
+          'Detaillierte Vermessung des Geländes, Planung der optimalen Trassenführung und Prüfung bestehender Leitungen.',
+        icon: 'tabler:ruler-measure',
+      },
+      {
+        title: 'Schritt 2: <span class="font-medium">Pilotbohrung mit Steuerung</span>',
+        description:
+          'Gesteuerte Pilotbohrung mit Echtzeitnavigation für zentimetergenaue Positionierung.',
+        icon: 'tabler:target-arrow',
+      },
+      {
+        title: 'Schritt 3: <span class="font-medium">Aufweitung & Leitungseinzug</span>',
+        description:
+          'Stufenweise Aufweitung des Bohrkanals und Einzug der Leitung oder des Leerrohrs.',
+        icon: 'tabler:topology-ring',
+      },
+      {
+        title: 'Schritt 4: <span class="font-medium">Qualitätskontrolle & Vermessung</span>',
+        description:
+          'Abschließende Vermessung, Dokumentation und Übergabe aller Verlegedaten.',
+        icon: 'tabler:circle-check',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Spülbohrung Prozess',
+    }}
+  />
+
+  <!-- Vorteile -->
+  <Content
+    title="Warum STOR Connect für Ihre Spülbohrung?"
+    items={[
+      {
+        title: 'Keine Aufgrabungen nötig',
+        description: 'Minimaler Eingriff in die Oberfläche - keine großflächigen Baugruben erforderlich.',
+      },
+      {
+        title: 'Minimale Verkehrsbeeinträchtigung',
+        description: 'Straßen und Wege bleiben während der Arbeiten größtenteils nutzbar.',
+      },
+      {
+        title: 'Umweltschonend',
+        description: 'Geringe Umweltbelastung durch reduzierte Erdarbeiten und Materialbewegungen.',
+      },
+      {
+        title: 'Präzise & Zuverlässig',
+        description: 'Moderne Steuerungstechnik garantiert zentimetergenaue Verlegung.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Vorteile Spülbohrungen',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Innovative Bohrtechnik
+      </h3>
+      Mit modernster HDD-Technologie verlegen wir Ihre Leitungen präzise, schnell und mit minimaler Beeinträchtigung der Umgebung.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Spülbohrung anfragen',
+        href: '/kontakt',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Bereit für Ihre<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"> Spülbohrung?</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Kontaktieren Sie uns für eine Machbarkeitsanalyse. <br class="hidden md:inline" />
+      Wir prüfen Ihr Projekt und erstellen ein detailliertes Angebot.
+    </Fragment>
+  </CallToAction>
+</Layout>

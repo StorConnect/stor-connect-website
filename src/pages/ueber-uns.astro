@@ -1,0 +1,228 @@
+---
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features from '~/components/widgets/Features.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Über uns - STOR Connect GmbH',
+  description: 'Lernen Sie STOR Connect GmbH kennen - Ihr modernes Bauunternehmen für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaser in Wien.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    tagline="Über uns"
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Team',
+    }}
+  >
+    <Fragment slot="title">
+      Über <span class="text-accent dark:text-white">STOR Connect GmbH</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Ihr verlässlicher Partner für moderne Baudienstleistungen in Wien und ganz Österreich. 
+      Mit Innovation, Expertise und höchstem Qualitätsanspruch setzen wir Ihre Infrastrukturprojekte um.
+    </Fragment>
+  </Hero>
+
+  <!-- Content Section - Unser Unternehmen -->
+
+  <Content
+    id="unternehmen"
+    title="Unser Unternehmen"
+    items={[
+      {
+        title: 'Gegründet 2025',
+        description: 'Als neu gegründetes Unternehmen bringen wir frischen Wind in die Baubranche.',
+      },
+      {
+        title: 'Sitz in Wien',
+        description: 'Zentral gelegen im 15. Bezirk, optimal erreichbar für Projekte in Wien und Umgebung.',
+      },
+      {
+        title: 'Modernes Equipment',
+        description: 'Investition in neueste Technik und Maschinen von Beginn an.',
+      },
+      {
+        title: 'Breites Leistungsspektrum',
+        description: 'Vier Kernkompetenzen unter einem Dach für ganzheitliche Lösungen.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Unternehmen',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Innovation trifft Erfahrung
+      </h3>
+      STOR Connect GmbH mit Sitz in Wien ist Ihr verlässlicher Partner für Tiefbau, Asphaltierung, Spülbohrungen 
+      und Glasfaserverlegung. Als neu gegründetes Unternehmen (2025) bringen wir frischen Wind in die Baubranche - 
+      mit modernem Equipment, digitalen Prozessen und höchstem Qualitätsanspruch.
+      <br/><br/>
+      Unsere vier Geschäftsfelder decken die gesamte Bandbreite moderner Infrastrukturprojekte ab. 
+      Von klassischen Tiefbauarbeiten über hochwertige Asphaltierung bis hin zu innovativen Spülbohrtechniken 
+      und zukunftssicherer Glasfaserverlegung.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Features Section - Unsere Werte -->
+
+  <Features
+    id="werte"
+    title="Unsere Werte"
+    subtitle="Was uns auszeichnet und antreibt"
+    items={[
+      {
+        title: 'Innovation & Moderne Technik',
+        description:
+          'Wir setzen auf neueste Technologien und innovative Verfahren für optimale Projektergebnisse.',
+        icon: 'tabler:bulb',
+      },
+      {
+        title: 'Qualität & Präzision',
+        description:
+          'Höchste Qualitätsstandards und präzise Ausführung sind die Grundlage unserer Arbeit.',
+        icon: 'tabler:target',
+      },
+      {
+        title: 'Verlässlichkeit',
+        description:
+          'Termintreue, transparente Kommunikation und Verbindlichkeit - darauf können Sie sich verlassen.',
+        icon: 'tabler:hand-stop',
+      },
+      {
+        title: 'Umweltbewusstsein',
+        description:
+          'Nachhaltige Bauverfahren und umweltschonende Materialien sind uns wichtig.',
+        icon: 'tabler:leaf',
+      },
+      {
+        title: 'Kundenzufriedenheit',
+        description:
+          'Ihr Erfolg ist unser Ziel - wir arbeiten eng mit Ihnen zusammen für optimale Ergebnisse.',
+        icon: 'tabler:heart',
+      },
+      {
+        title: 'Regionale Verwurzelung',
+        description:
+          'Als Wiener Unternehmen kennen wir die Region und ihre spezifischen Anforderungen.',
+        icon: 'tabler:map-pin',
+      },
+    ]}
+  />
+
+  <!-- Content Section - Geschäftsführung -->
+
+  <Content
+    isReversed
+    isAfterContent
+    id="management"
+    title="Geschäftsführung"
+    items={[
+      {
+        title: 'Vision & Strategie',
+        description: 'Klare Vision für nachhaltiges Wachstum und Qualitätsführerschaft.',
+      },
+      {
+        title: 'Fachliche Expertise',
+        description: 'Fundiertes Know-how in allen Bereichen des Baugewerbes.',
+      },
+      {
+        title: 'Kundenorientierung',
+        description: 'Persönlicher Kontakt und individuelle Betreuung jedes Projekts.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Stefan Sator - Geschäftsführer',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Stefan Sator - Geschäftsführer
+      </h3>
+      Unter der Leitung von Geschäftsführer Stefan Sator setzen wir auf Expertise, Transparenz und Kundenzufriedenheit. 
+      Mit klarer Vision und unternehmerischem Weitblick führt er STOR Connect GmbH zu einem verlässlichen Partner 
+      für Infrastrukturprojekte in Österreich.
+      <br/><br/>
+      "Unser Anspruch ist es, mit modernster Technik, qualifizierten Fachkräften und nachhaltigem Handeln 
+      Infrastrukturprojekte zu realisieren, die unsere Kunden begeistern und die Zukunft mitgestalten."
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Unsere Kompetenzen -->
+
+  <Content
+    title="Unsere Kernkompetenzen"
+    subtitle="Vier Geschäftsfelder - eine Kompetenz"
+    items={[
+      {
+        title: 'Tiefbau',
+        description: 'Erdarbeiten, Fundamentierung und Leitungsverlegung für solide Infrastruktur.',
+      },
+      {
+        title: 'Asphaltierung',
+        description: 'Hochwertige Asphaltarbeiten für Straßen, Parkplätze und Privatflächen.',
+      },
+      {
+        title: 'Spülbohrungen',
+        description: 'Moderne HDD-Technik für schonende unterirdische Leitungsverlegung.',
+      },
+      {
+        title: 'Glasfaser',
+        description: 'Zukunftssichere Glasfaserinfrastruktur vom Backbone bis zum Hausanschluss.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Kompetenzen',
+    }}
+  >
+    <Fragment slot="content">
+      Die Kombination dieser vier Geschäftsfelder macht uns zu einem kompetenten Gesamtanbieter für moderne 
+      Infrastrukturprojekte. Egal ob einzelne Leistungen oder Komplettlösungen - wir haben die Expertise und 
+      das Equipment für Ihr Projekt.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Jetzt Kontakt aufnehmen',
+        href: '/kontakt',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Lernen Sie uns kennen
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Kontaktieren Sie uns für ein persönliches Gespräch. <br class="hidden md:inline" />
+      Wir freuen uns darauf, Sie und Ihr Projekt kennenzulernen!
+    </Fragment>
+  </CallToAction>
+</Layout>

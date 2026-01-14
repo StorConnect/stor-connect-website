@@ -23,12 +23,26 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 
 export default defineConfig({
   output: 'static',
+  site: 'https://astrowind-two-hazel.vercel.app',
 
   integrations: [
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.includes('/api/'),
+      customPages: [
+        'https://astrowind-two-hazel.vercel.app/',
+        'https://astrowind-two-hazel.vercel.app/leistungen/tiefbau',
+        'https://astrowind-two-hazel.vercel.app/leistungen/asphaltierung',
+        'https://astrowind-two-hazel.vercel.app/leistungen/spuelbohrungen',
+        'https://astrowind-two-hazel.vercel.app/leistungen/glasfaser',
+        'https://astrowind-two-hazel.vercel.app/ueber-uns',
+        'https://astrowind-two-hazel.vercel.app/kontakt',
+        'https://astrowind-two-hazel.vercel.app/impressum',
+        'https://astrowind-two-hazel.vercel.app/datenschutz',
+      ],
+    }),
     mdx(),
     icon({
       include: {

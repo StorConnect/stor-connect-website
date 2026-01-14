@@ -1,0 +1,161 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Tiefbau & Fundamentarbeiten - STOR Connect GmbH',
+  description: 'Professionelle Tiefbauarbeiten in Wien: Erdaushub, Fundamentierung, Leitungsverlegung und mehr. Erfahrene Teams mit modernster Technik.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section -->
+  <Hero
+    image={{ src: '~/assets/images/hero-image.png', alt: 'Tiefbau Arbeiten STOR Connect' }}
+  >
+    <Fragment slot="title">
+      Tiefbau & <span class="text-accent dark:text-white">Fundamentarbeiten</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Professionelle Erdarbeiten, Fundamentierungen und Leitungsverlegungen für Ihr Bauvorhaben. Solide Basis für langlebige Projekte.
+    </Fragment>
+  </Hero>
+
+  <!-- Leistungsübersicht -->
+  <Features
+    id="leistungen"
+    title="Unsere Tiefbau-Leistungen"
+    subtitle="Umfassende Tiefbauarbeiten für private und gewerbliche Projekte"
+    items={[
+      {
+        title: 'Erdaushub und Erdarbeiten',
+        description: 'Präzise Erdarbeiten mit modernster Maschinentechnik für jede Projektgröße.',
+        icon: 'tabler:tractor',
+      },
+      {
+        title: 'Fundamentierungen',
+        description: 'Solide Fundamente als sichere Basis für Ihr Bauwerk - fachgerecht und nach allen Normen.',
+        icon: 'tabler:building',
+      },
+      {
+        title: 'Entwässerungssysteme',
+        description: 'Planung und Installation effizienter Entwässerungssysteme und Drainagen.',
+        icon: 'tabler:droplet',
+      },
+      {
+        title: 'Leitungsverlegung',
+        description: 'Fachgerechte Verlegung von Wasser-, Kanal-, Strom- und Kommunikationsleitungen.',
+        icon: 'tabler:plug',
+      },
+      {
+        title: 'Baugrubenverbau',
+        description: 'Sicherer Verbau von Baugruben nach neuesten Sicherheitsstandards.',
+        icon: 'tabler:shield-check',
+      },
+      {
+        title: 'Verdichtungsarbeiten',
+        description: 'Professionelle Bodenverdichtung für stabile Untergründe und Tragschichten.',
+        icon: 'tabler:arrows-down',
+      },
+    ]}
+  />
+
+  <!-- Prozess -->
+  <Steps
+    title="Unser Tiefbau-Prozess"
+    subtitle="Von der Planung bis zur Fertigstellung - professionell und termingerecht"
+    items={[
+      {
+        title: 'Schritt 1: <span class="font-medium">Baugrundanalyse & Planung</span>',
+        description:
+          'Detaillierte Untersuchung des Baugrunds, Erstellung eines Konzepts und Abstimmung aller technischen Details.',
+        icon: 'tabler:map-search',
+      },
+      {
+        title: 'Schritt 2: <span class="font-medium">Genehmigungen & Abstimmungen</span>',
+        description:
+          'Einholung aller erforderlichen Genehmigungen und Koordination mit Behörden und Versorgern.',
+        icon: 'tabler:file-check',
+      },
+      {
+        title: 'Schritt 3: <span class="font-medium">Fachgerechte Ausführung</span>',
+        description:
+          'Professionelle Durchführung aller Tiefbauarbeiten mit modernster Technik und erfahrenen Fachkräften.',
+        icon: 'tabler:tools',
+      },
+      {
+        title: 'Schritt 4: <span class="font-medium">Qualitätssicherung & Dokumentation</span>',
+        description:
+          'Gründliche Qualitätsprüfung, vollständige Dokumentation und Übergabe aller Unterlagen.',
+        icon: 'tabler:clipboard-check',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Tiefbau Prozess',
+    }}
+  />
+
+  <!-- Vorteile -->
+  <Content
+    title="Warum STOR Connect für Ihren Tiefbau?"
+    items={[
+      {
+        title: 'Moderne Maschinen',
+        description: 'Einsatz neuester Baumaschinen für effiziente und präzise Arbeiten.',
+      },
+      {
+        title: 'Erfahrene Teams',
+        description: 'Hochqualifizierte Fachkräfte mit jahrelanger Erfahrung im Tiefbau.',
+      },
+      {
+        title: 'Termingerechte Umsetzung',
+        description: 'Zuverlässige Planung und Einhaltung vereinbarter Zeitpläne.',
+      },
+      {
+        title: 'Transparente Kommunikation',
+        description: 'Regelmäßige Updates und enge Abstimmung während des gesamten Projekts.',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'STOR Connect Vorteile Tiefbau',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Qualität und Zuverlässigkeit
+      </h3>
+      Mit modernster Technik, erfahrenen Fachkräften und transparenter Kommunikation setzen wir Ihr Tiefbauprojekt erfolgreich um.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Call to Action -->
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Tiefbau-Projekt anfragen',
+        href: '/kontakt',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      Bereit für Ihr<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"> Tiefbau-Projekt?</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Kontaktieren Sie uns für eine kostenlose Erstberatung. <br class="hidden md:inline" />
+      Wir erstellen Ihnen ein maßgeschneidertes Angebot.
+    </Fragment>
+  </CallToAction>
+</Layout>

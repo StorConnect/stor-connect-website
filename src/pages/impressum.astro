@@ -1,0 +1,105 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+
+const metadata = {
+  title: 'Impressum - STOR Connect GmbH',
+  description: 'Impressum und rechtliche Angaben der STOR Connect GmbH, Wien.',
+};
+---
+
+<Layout metadata={metadata}>
+  <HeroText tagline="Rechtliches" title="Impressum" />
+
+  <section class="px-4 py-16 sm:px-6 mx-auto lg:px-8 lg:py-20 max-w-4xl">
+    <div class="prose prose-lg dark:prose-invert max-w-none">
+      <h2>Angaben gemäß § 5 TMG / § 14 UGB (Österreich)</h2>
+
+      <div class="my-8">
+        <h3>Firmenname</h3>
+        <p>
+          <strong>STOR Connect GmbH</strong><br />
+          Neubaugürtel 35/Top 44<br />
+          1150 Wien<br />
+          Österreich
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Vertretung</h3>
+        <p>
+          <strong>Geschäftsführer:</strong> Stefan Sator
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Geschäftszweck</h3>
+        <p>
+          Baumeistergewerbe, Tiefbau und Hochbau, Montage und Ausbau von Glasfasernetzinfrastruktur
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Handelsregister</h3>
+        <p>
+          <strong>Firmenbuchnummer:</strong> FN 490148 g<br />
+          <strong>Handelsgericht:</strong> Wien<br />
+          <strong>UID-Nummer:</strong> [PLATZHALTER - wird nachgeliefert]
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Kontakt</h3>
+        <p>
+          <strong>E-Mail:</strong> <a href="mailto:info@stor-bau.at" class="text-blue-600 hover:underline">info@stor-bau.at</a><br />
+          <strong>Telefon:</strong> [PLATZHALTER - wird nachgeliefert]
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Aufsichtsbehörde</h3>
+        <p>
+          [PLATZHALTER - falls zutreffend]
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Berufshaftpflichtversicherung</h3>
+        <p>
+          [PLATZHALTER - Versicherung und Geltungsbereich wird nachgeliefert]
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Hinweis zur Online-Streitbeilegung</h3>
+        <p>
+          Die Europäische Kommission stellt eine Plattform für die außergerichtliche Online-Streitbeilegung (OS-Plattform) bereit, 
+          die unter <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">https://ec.europa.eu/consumers/odr/</a> 
+          erreichbar ist.
+        </p>
+      </div>
+
+      <div class="my-8">
+        <h3>Haftungsausschluss</h3>
+        <h4>Haftung für Inhalte</h4>
+        <p>
+          Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität 
+          der Inhalte können wir jedoch keine Gewähr übernehmen.
+        </p>
+
+        <h4>Haftung für Links</h4>
+        <p>
+          Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. 
+          Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
+        </p>
+
+        <h4>Urheberrecht</h4>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem österreichischen Urheberrecht. 
+          Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes 
+          bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
