@@ -1,9 +1,134 @@
 ---
-import { SITE } from 'astrowind:config';
+interface Props {
+  size?: 'small' | 'medium' | 'large';
+  showSpinner?: boolean;
+  class?: string;
+}
+
+const { 
+  size = 'medium', 
+  showSpinner = true,
+  class: className = ''
+} = Astro.props;
+
+// Responsive Größen basierend auf Mobile First Prinzip
+const sizeClasses = {
+  small: 'logo-small',    // Footer: ~120px Logo, 24px Spinner
+  medium: 'logo-medium',  // Header Mobile: ~120px → Desktop: ~180px
+  large: 'logo-large'     // Hero/Special: ~200px+
+};
+
+const spinnerSizes = {
+  small: 'w-6 h-6',      // 24px
+  medium: 'w-8 h-8 md:w-10 md:h-10',  // 32px → 40px
+  large: 'w-12 h-12'     // 48px
+};
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
+<a 
+  href="/" 
+  class:list={[
+    'logo-wrapper',
+    'flex items-center gap-2',
+    'transition-opacity hover:opacity-80',
+    'focus:outline-none focus:ring-2 focus:ring-stor-red focus:ring-offset-2 rounded',
+    sizeClasses[size],
+    className
+  ]}
+  aria-label="STOR Connect - Zurück zur Startseite"
 >
-  {SITE?.name}
-</span>
+  {showSpinner && (
+    <span class:list={['spinner-icon flex-shrink-0', spinnerSizes[size]]} aria-hidden="true">
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class="w-full h-full">
+        <defs>
+          <filter id='gooeyEffect'>
+            <feGaussianBlur in='SourceGraphic' result='blur' stdDeviation='1.5'/>
+            <feColorMatrix in='blur' result='gooey' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7'/>
+            <feBlend in='SourceGraphic' in2='gooey'/>
+          </filter>
+        </defs>
+        <g fill='#E01D22' filter='url(#gooeyEffect)'>
+          <circle cx='4' cy='12' r='3'>
+            <animate attributeName='cx' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='4;9;4'/>
+            <animate attributeName='r' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='3;8;3'/>
+          </circle>
+          <circle cx='15' cy='12' r='8'>
+            <animate attributeName='cx' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='15;20;15'/>
+            <animate attributeName='r' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='8;3;8'/>
+          </circle>
+        </g>
+      </svg>
+    </span>
+  )}
+  
+  <img 
+    src="/src/assets/images/logo.svg" 
+    alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
+    class="logo-image"
+    loading="eager"
+  />
+</a>
+
+<style>
+  /* Mobile First Responsive Logo Größen */
+  .logo-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Small (Footer, kompakte Bereiche) */
+  .logo-small .logo-image {
+    height: 32px;
+    width: auto;
+  }
+
+  /* Medium (Header) - Mobile First */
+  .logo-medium .logo-image {
+    height: 36px; /* Mobile: kleiner */
+    width: auto;
+  }
+
+  @media (min-width: 640px) {
+    .logo-medium .logo-image {
+      height: 44px; /* Tablet */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .logo-medium .logo-image {
+      height: 52px; /* Desktop */
+    }
+  }
+
+  /* Large (Hero, spezielle Bereiche) */
+  .logo-large .logo-image {
+    height: 56px;
+    width: auto;
+  }
+
+  @media (min-width: 640px) {
+    .logo-large .logo-image {
+      height: 64px;
+    }
+  }
+
+  /* Sehr kleine Screens: Stack Layout */
+  @media (max-width: 380px) {
+    .logo-wrapper {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+
+  /* Smooth Transitions */
+  .logo-image {
+    transition: all 0.3s ease;
+  }
+
+  /* Print: Keine Animation */
+  @media print {
+    .spinner-icon {
+      display: none;
+    }
+  }
+</style>

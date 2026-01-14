@@ -1,0 +1,12 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'>
+  <defs>
+    <filter id='gooey'>
+      <feGaussianBlur in='SourceGraphic' result='blur' stdDeviation='2'/>
+      <feColorMatrix in='blur' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7'/>
+    </filter>
+  </defs>
+  <g filter='url(#gooey)'>
+    <circle cx='10' cy='16' r='6' fill='#E01D22'/>
+    <circle cx='22' cy='16' r='6' fill='#E01D22'/>
+  </g>
+</svg>

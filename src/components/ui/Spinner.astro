@@ -1,0 +1,63 @@
+---
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  class?: string;
+}
+
+const { 
+  size = 'md',
+  class: className = ''
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'w-6 h-6',
+  md: 'w-10 h-10',
+  lg: 'w-16 h-16'
+};
+---
+
+<div 
+  class:list={['spinner-container inline-block', sizeClasses[size], className]}
+  role="status"
+  aria-label="Lädt..."
+>
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class="w-full h-full">
+    <defs>
+      <filter id='spinnerGooey'>
+        <feGaussianBlur in='SourceGraphic' result='blur' stdDeviation='1.5'/>
+        <feColorMatrix in='blur' result='gooey' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 18 -7'/>
+        <feBlend in='SourceGraphic' in2='gooey'/>
+      </filter>
+    </defs>
+    <g fill='#E01D22' filter='url(#spinnerGooey)'>
+      <circle cx='4' cy='12' r='3'>
+        <animate attributeName='cx' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='4;9;4'/>
+        <animate attributeName='r' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='3;8;3'/>
+      </circle>
+      <circle cx='15' cy='12' r='8'>
+        <animate attributeName='cx' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='15;20;15'/>
+        <animate attributeName='r' calcMode='spline' dur='0.862s' keySplines='.56,.52,.17,.98;.56,.52,.17,.98' repeatCount='indefinite' values='8;3;8'/>
+      </circle>
+    </g>
+  </svg>
+  <span class="sr-only">Lädt...</span>
+</div>
+
+<style>
+  .spinner-container {
+    display: inline-block;
+  }
+
+  /* Screen Reader Only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
