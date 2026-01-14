@@ -1,253 +1,91 @@
 ---
-// Cookie Consent - Eigenes Design mit Klaro nur für Logic
-// KEIN Klaro CSS - komplett custom Implementation
+// Cookie Consent mit vanilla-cookieconsent Library
+// Bewährte, funktionierende GDPR/DSGVO-konforme Lösung
+import 'vanilla-cookieconsent/dist/cookieconsent.css';
 ---
 
-<script is:inline>
-  // Klaro Config - NUR für Consent-Management Logic
-  window.klaroConfig = {
-    version: 1,
-    storageMethod: 'cookie',
-    cookieName: 'stor-cookie-consent',
-    cookieExpiresAfterDays: 365,
-    
-    // WICHTIG: Klaro's UI komplett deaktivieren
-    noAutoLoad: true,           // Kein automatisches Banner
-    embedded: true,             // Nur API nutzen
-    
-    default: false,
-    mustConsent: true,
-    
-    services: [
-      {
-        name: 'necessary',
-        purposes: ['essential'],
-        required: true,
-        default: true,
-      },
-      {
-        name: 'analytics',
-        purposes: ['analytics'],
-        required: false,
-        default: false,
-      },
-      {
-        name: 'functional',
-        purposes: ['functional'],
-        required: false,
-        default: false,
-      }
-    ]
-  };
-</script>
-
 <script>
-  // Klaro vom npm package importieren (nur Logic, kein UI)
-  import * as Klaro from 'klaro';
-  
-  // Initialisiere Klaro ohne UI
-  if (typeof window !== 'undefined') {
-    Klaro.setup(window.klaroConfig);
-  }
-</script>
+  import * as CookieConsent from 'vanilla-cookieconsent';
 
-<!-- Custom STOR Connect Cookie Banner -->
-<div id="stor-cookie-banner" class="stor-cookie-banner" style="display: none;">
-  <div class="stor-cookie-backdrop"></div>
-  
-  <div class="stor-cookie-content">
-    <div class="stor-cookie-header">
-      <span class="stor-cookie-emoji">🍪</span>
-      <h3 class="stor-cookie-title">Cookie-Einstellungen</h3>
-    </div>
-    
-    <p class="stor-cookie-text">
-      Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, 
-      während andere uns helfen, diese Website und deine Erfahrung zu verbessern.
-    </p>
-    
-    <div class="stor-cookie-links">
-      <a href="/impressum" class="stor-cookie-link">Impressum</a>
-      <a href="/datenschutz" class="stor-cookie-link">Datenschutz</a>
-      <button id="stor-cookie-details" class="stor-cookie-link stor-cookie-link-btn">
-        Cookie Richtlinien
-      </button>
-    </div>
-    
-    <div class="stor-cookie-buttons">
-      <button id="stor-accept-all" class="stor-btn stor-btn-primary">
-        Alle Cookies akzeptieren
-      </button>
-      <button id="stor-customize" class="stor-btn stor-btn-secondary">
-        Benutzerdefiniert
-      </button>
-      <button id="stor-accept-necessary" class="stor-btn stor-btn-secondary">
-        Nur notwendige
-      </button>
-    </div>
-  </div>
-  
-  <!-- Details Modal (wenn "Cookie Richtlinien" oder "Benutzerdefiniert" geklickt) -->
-  <div id="stor-cookie-details-modal" class="stor-cookie-modal" style="display: none;">
-    <div class="stor-modal-content">
-      <div class="stor-modal-header">
-        <h3>Cookie-Einstellungen</h3>
-        <button id="stor-modal-close" class="stor-modal-close">&times;</button>
-      </div>
-      
-      <div class="stor-modal-body">
-        <div class="stor-cookie-category">
-          <details open>
-            <summary class="stor-category-title">
-              <span>Notwendige Cookies</span>
-              <span class="stor-category-badge">Immer aktiv</span>
-            </summary>
-            <p class="stor-category-desc">
-              Diese Cookies sind für die Grundfunktionen der Website erforderlich 
-              und können nicht deaktiviert werden.
-            </p>
-          </details>
-        </div>
-        
-        <div class="stor-cookie-category">
-          <details>
-            <summary class="stor-category-title">
-              <span>Cookies für Marketing</span>
-              <label class="stor-toggle">
-                <input type="checkbox" id="stor-toggle-marketing" data-service="functional">
-                <span class="stor-toggle-slider"></span>
-              </label>
-            </summary>
-            <p class="stor-category-desc">
-              Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.
-            </p>
-          </details>
-        </div>
-        
-        <div class="stor-cookie-category">
-          <details>
-            <summary class="stor-category-title">
-              <span>Cookies für Analyse</span>
-              <label class="stor-toggle">
-                <input type="checkbox" id="stor-toggle-analytics" data-service="analytics">
-                <span class="stor-toggle-slider"></span>
-              </label>
-            </summary>
-            <p class="stor-category-desc">
-              Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.
-            </p>
-          </details>
-        </div>
-      </div>
-      
-      <div class="stor-modal-footer">
-        <button id="stor-modal-save" class="stor-btn stor-btn-primary stor-btn-large">
-          Auswahl speichern
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Custom Cookie Banner Logic mit Klaro API
-  import * as Klaro from 'klaro';
-  
   document.addEventListener('DOMContentLoaded', () => {
-    const banner = document.getElementById('stor-cookie-banner');
-    const detailsModal = document.getElementById('stor-cookie-details-modal');
-    const acceptAllBtn = document.getElementById('stor-accept-all');
-    const acceptNecessaryBtn = document.getElementById('stor-accept-necessary');
-    const customizeBtn = document.getElementById('stor-customize');
-    const detailsBtn = document.getElementById('stor-cookie-details');
-    const modalClose = document.getElementById('stor-modal-close');
-    const modalSave = document.getElementById('stor-modal-save');
-    
-    // Null-checks für alle Elemente
-    if (!banner || !detailsModal) {
-      console.error('Cookie banner elements not found');
-      return;
-    }
-    
-    // Klaro initialisieren (nur Logic, kein UI)
-    const manager = Klaro.getManager(window.klaroConfig);
-    
-    // Banner anzeigen wenn noch keine Consent-Entscheidung
-    const savedConsents = manager.consents;
-    if (!savedConsents || Object.keys(savedConsents).length === 0) {
-      banner.style.display = 'block';
-    }
-    
-    // "Alle akzeptieren" Button
-    acceptAllBtn?.addEventListener('click', () => {
-      manager.updateConsent('necessary', true);
-      manager.updateConsent('analytics', true);
-      manager.updateConsent('functional', true);
-      manager.saveAndApplyConsents();
-      banner.style.display = 'none';
-    });
-    
-    // NEU: "Benutzerdefiniert" Button - Öffnet Details Modal
-    customizeBtn?.addEventListener('click', () => {
-      detailsModal.style.display = 'flex';
-      
-      // Toggle-States aus gespeicherten Consents laden
-      const consents = manager.consents;
-      const analyticsToggle = document.getElementById('stor-toggle-analytics');
-      const marketingToggle = document.getElementById('stor-toggle-marketing');
-      
-      if (analyticsToggle) analyticsToggle.checked = consents.analytics || false;
-      if (marketingToggle) marketingToggle.checked = consents.functional || false;
-    });
-    
-    // "Nur notwendige" Button
-    acceptNecessaryBtn?.addEventListener('click', () => {
-      manager.updateConsent('necessary', true);
-      manager.updateConsent('analytics', false);
-      manager.updateConsent('functional', false);
-      manager.saveAndApplyConsents();
-      banner.style.display = 'none';
-    });
-    
-    // "Cookie Richtlinien" - Details Modal öffnen
-    detailsBtn?.addEventListener('click', () => {
-      detailsModal.style.display = 'flex';
-      
-      // Toggle-States aus gespeicherten Consents laden
-      const consents = manager.consents;
-      const analyticsToggle = document.getElementById('stor-toggle-analytics');
-      const marketingToggle = document.getElementById('stor-toggle-marketing');
-      
-      if (analyticsToggle) analyticsToggle.checked = consents.analytics || false;
-      if (marketingToggle) marketingToggle.checked = consents.functional || false;
-    });
-    
-    // Modal schließen
-    modalClose?.addEventListener('click', () => {
-      detailsModal.style.display = 'none';
-    });
-    
-    // "Auswahl speichern" im Modal
-    modalSave?.addEventListener('click', () => {
-      const analyticsToggle = document.getElementById('stor-toggle-analytics');
-      const marketingToggle = document.getElementById('stor-toggle-marketing');
-      
-      const analyticsChecked = analyticsToggle?.checked || false;
-      const marketingChecked = marketingToggle?.checked || false;
-      
-      manager.updateConsent('necessary', true);
-      manager.updateConsent('analytics', analyticsChecked);
-      manager.updateConsent('functional', marketingChecked);
-      manager.saveAndApplyConsents();
-      
-      detailsModal.style.display = 'none';
-      banner.style.display = 'none';
-    });
-    
-    // Modal Backdrop schließt Modal
-    detailsModal.addEventListener('click', (e) => {
-      if (e.target === detailsModal) {
-        detailsModal.style.display = 'none';
+    CookieConsent.run({
+      // DSGVO-Compliance Settings
+      guiOptions: {
+        consentModal: {
+          layout: 'box',              // Box-Layout (nicht bar)
+          position: 'bottom center',  // MITTIG AM BOTTOM - GARANTIERT!
+          equalWeightButtons: true,   // Alle Buttons gleich groß
+          flipButtons: false
+        },
+        preferencesModal: {
+          layout: 'box',
+          position: 'left',
+          equalWeightButtons: true
+        }
+      },
+
+      // Cookie-Kategorien
+      categories: {
+        necessary: {
+          enabled: true,
+          readOnly: true
+        },
+        analytics: {
+          enabled: false,
+          readOnly: false
+        },
+        marketing: {
+          enabled: false,
+          readOnly: false
+        }
+      },
+
+      // Deutsche Texte
+      language: {
+        default: 'de',
+        translations: {
+          de: {
+            consentModal: {
+              title: '🍪 Cookie-Einstellungen',
+              description: 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und deine Erfahrung zu verbessern.',
+              acceptAllBtn: 'Alle Cookies akzeptieren',
+              acceptNecessaryBtn: 'Nur notwendige',
+              showPreferencesBtn: 'Benutzerdefiniert',
+              footer: `
+                <a href="/impressum">Impressum</a>
+                <a href="/datenschutz">Datenschutz</a>
+              `
+            },
+            preferencesModal: {
+              title: 'Cookie-Einstellungen',
+              acceptAllBtn: 'Alle akzeptieren',
+              acceptNecessaryBtn: 'Nur notwendige',
+              savePreferencesBtn: 'Auswahl speichern',
+              closeIconLabel: 'Schließen',
+              sections: [
+                {
+                  title: 'Cookie-Nutzung',
+                  description: 'Wir verwenden Cookies, um die grundlegenden Funktionen der Website zu gewährleisten und um Ihr Online-Erlebnis zu verbessern.'
+                },
+                {
+                  title: 'Notwendige Cookies',
+                  description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
+                  linkedCategory: 'necessary'
+                },
+                {
+                  title: 'Analyse-Cookies',
+                  description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.',
+                  linkedCategory: 'analytics'
+                },
+                {
+                  title: 'Marketing-Cookies',
+                  description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.',
+                  linkedCategory: 'marketing'
+                }
+              ]
+            }
+          }
+        }
       }
     });
   });
@@ -255,383 +93,93 @@
 
 <style is:global>
 /* ========================================
-   STOR CONNECT - CUSTOM COOKIE BANNER
-   Eigenes Design ohne Klaro CSS
+   STOR CONNECT - vanilla-cookieconsent Customization
+   STOR Connect CI Farben
    ======================================== */
 
-/* BACKDROP - Weniger aggressiv (25% statt 40%) */
-.stor-cookie-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.25);
-  z-index: 9998;
+/* Consent Modal - Am Bottom */
+#cc-main .cm {
+  --cc-bg: #ffffff;
+  --cc-primary-color: #E01D22;        /* STOR Rot */
+  --cc-secondary-color: #36454F;      /* STOR Grau */
+  --cc-btn-primary-bg: #E01D22;       /* STOR Rot */
+  --cc-btn-primary-hover-bg: #C9302C; /* Dunkleres Rot */
+  --cc-btn-secondary-bg: #f3f4f6;     /* Grau */
+  --cc-btn-secondary-hover-bg: #e5e7eb;
+  --cc-separator-border-color: #e5e7eb;
+  --cc-font-family: 'Inter Variable', system-ui, sans-serif;
 }
 
-/* BANNER CONTAINER - FIXED: Mittig am Bottom */
-.stor-cookie-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  pointer-events: none;
-  padding: 0 1rem 2rem 1rem;
+/* Primary Button (Alle akzeptieren) - STOR Rot */
+#cc-main .cm__btn--primary {
+  background-color: #E01D22 !important;
+  border-color: #E01D22 !important;
+  color: white !important;
 }
 
-.stor-cookie-banner * {
-  pointer-events: auto;
+#cc-main .cm__btn--primary:hover {
+  background-color: #C9302C !important;
+  border-color: #C9302C !important;
 }
 
-/* COOKIE CONTENT BOX - FIXED: Immer zentriert */
-.stor-cookie-content {
-  position: relative;
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 550px;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
-  font-family: 'Inter Variable', system-ui, sans-serif;
-  animation: slideUpBanner 0.3s ease-out;
-  margin: 0 auto;
-  border: 1px solid #e5e7eb;
+/* Secondary Buttons - Grau */
+#cc-main .cm__btn--secondary {
+  background-color: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+  color: #36454F !important;
 }
 
-/* Mobile: Kleinere Breite aber zentriert */
-@media (max-width: 767px) {
-  .stor-cookie-banner {
-    padding: 0 0.5rem 1rem 0.5rem;
-  }
-  
-  .stor-cookie-content {
-    max-width: calc(100% - 1rem);
-    padding: 1.25rem;
-    border-radius: 12px;
-  }
+#cc-main .cm__btn--secondary:hover {
+  background-color: #e5e7eb !important;
 }
 
-@keyframes slideUpBanner {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+/* Toggle Switch - STOR Rot wenn aktiv */
+#cc-main .section__toggle:checked ~ .toggle__icon {
+  background-color: #E01D22 !important;
+}
+
+/* Modal am Bottom zentriert - Extra sicherstellen */
+#cc-main .cm--box.cm--bottom {
+  bottom: 2rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  max-width: 550px !important;
+  margin: 0 auto !important;
+}
+
+/* Mobile: Vollbreite */
+@media (max-width: 768px) {
+  #cc-main .cm--box.cm--bottom {
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+    max-width: 100% !important;
+    border-radius: 12px 12px 0 0 !important;
   }
 }
 
-/* HEADER */
-.stor-cookie-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+/* Button Text - Kein Overflow */
+#cc-main .cm__btn {
+  white-space: normal !important;
+  text-align: center !important;
+  padding: 0.875rem 1rem !important;
 }
 
-.stor-cookie-emoji {
-  font-size: 1.5rem;
-  line-height: 1;
+/* Preferences Modal */
+#cc-main .pm {
+  --cc-bg: #ffffff;
+  --cc-primary-color: #E01D22;
+  --cc-secondary-color: #36454F;
 }
 
-.stor-cookie-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #36454F;
-  margin: 0;
+/* Links im Footer */
+#cc-main .cm__footer a {
+  color: #36454F !important;
+  text-decoration: underline !important;
 }
 
-/* TEXT */
-.stor-cookie-text {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #6b7280;
-  margin: 0 0 1rem 0;
-}
-
-/* LINKS */
-.stor-cookie-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-  font-size: 0.9rem;
-}
-
-.stor-cookie-link {
-  color: #36454F;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: inherit;
-  font-family: inherit;
-}
-
-.stor-cookie-link:hover {
-  color: #E01D22;
-}
-
-/* BUTTONS - FIXED: Layout für 3 Buttons */
-.stor-cookie-buttons {
-  display: flex;
-  gap: 0.5rem;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.stor-btn {
-  padding: 0.875rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-}
-
-/* Mobile: 3 Buttons untereinander */
-@media (max-width: 767px) {
-  .stor-cookie-buttons {
-    flex-direction: column;
-  }
-  
-  .stor-btn {
-    width: 100%;
-    padding: 1rem 1.5rem;
-  }
-}
-
-/* Desktop: Kleinere Gaps für 3 Buttons */
-@media (min-width: 768px) {
-  .stor-cookie-buttons {
-    gap: 0.75rem;
-  }
-}
-
-.stor-btn-primary {
-  background-color: #E01D22;
-  color: white;
-}
-
-.stor-btn-primary:hover {
-  background-color: #C9302C;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(224, 29, 34, 0.3);
-}
-
-.stor-btn-secondary {
-  background-color: #f3f4f6;
-  color: #36454F;
-  border: 1px solid #e5e7eb;
-}
-
-.stor-btn-secondary:hover {
-  background-color: #e5e7eb;
-}
-
-/* DETAILS MODAL */
-.stor-cookie-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  padding: 1rem;
-}
-
-.stor-modal-content {
-  background: white;
-  border-radius: 12px;
-  max-width: 600px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: modalFadeIn 0.2s ease-out;
-}
-
-@keyframes modalFadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-.stor-modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.stor-modal-header h3 {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #36454F;
-}
-
-.stor-modal-close {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  line-height: 1;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-}
-
-.stor-modal-close:hover {
-  color: #36454F;
-}
-
-.stor-modal-body {
-  padding: 1.5rem;
-}
-
-.stor-cookie-category {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
-  background: #fafafa;
-}
-
-.stor-cookie-category details {
-  padding: 0;
-}
-
-.stor-cookie-category summary {
-  list-style: none;
-  cursor: pointer;
-}
-
-.stor-cookie-category summary::-webkit-details-marker {
-  display: none;
-}
-
-.stor-category-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  font-weight: 600;
-  color: #36454F;
-}
-
-.stor-category-badge {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: #6b7280;
-  background: #e5e7eb;
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-}
-
-.stor-category-desc {
-  padding: 0 1rem 1rem 1rem;
-  margin: 0;
-  font-size: 0.9rem;
-  color: #6b7280;
-  line-height: 1.5;
-}
-
-/* TOGGLE SWITCH */
-.stor-toggle {
-  position: relative;
-  display: inline-block;
-  width: 48px;
-  height: 24px;
-  cursor: pointer;
-}
-
-.stor-toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.stor-toggle-slider {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #d1d5db;
-  border-radius: 24px;
-  transition: 0.3s;
-}
-
-.stor-toggle-slider:before {
-  content: "";
-  position: absolute;
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  border-radius: 50%;
-  transition: 0.3s;
-}
-
-.stor-toggle input:checked + .stor-toggle-slider {
-  background-color: #E01D22;
-}
-
-.stor-toggle input:checked + .stor-toggle-slider:before {
-  transform: translateX(24px);
-}
-
-.stor-modal-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.stor-btn-large {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1rem;
-}
-
-/* MOBILE OPTIMIERUNGEN */
-@media (max-width: 767px) {
-  .stor-cookie-title {
-    font-size: 1.1rem;
-  }
-  
-  .stor-cookie-text {
-    font-size: 0.9rem;
-  }
-  
-  .stor-modal-content {
-    border-radius: 12px 12px 0 0;
-    max-height: 85vh;
-  }
-}
-
-/* PRINT */
-@media print {
-  .stor-cookie-banner,
-  .stor-cookie-modal {
-    display: none !important;
-  }
+#cc-main .cm__footer a:hover {
+  color: #E01D22 !important;
 }
 </style>

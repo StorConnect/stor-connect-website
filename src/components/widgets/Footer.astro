@@ -104,7 +104,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
 </footer>
 
 <script>
-  // Cookie-Einstellungen Link Handler
+  // Cookie-Einstellungen Link Handler für vanilla-cookieconsent
   document.addEventListener('DOMContentLoaded', () => {
     // Finde alle Links die auf #cookie-settings verweisen
     const cookieLinks = document.querySelectorAll('a[href="#cookie-settings"]');
@@ -113,10 +113,9 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
       link.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // Zeige den Cookie-Banner wieder an
-        const banner = document.getElementById('stor-cookie-banner');
-        if (banner) {
-          banner.style.display = 'block';
+        // vanilla-cookieconsent API - Preferences Modal öffnen
+        if (window.CookieConsent) {
+          window.CookieConsent.showPreferences();
         }
       });
     });
