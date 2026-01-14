@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* Mobile-First: Word-Breaking für lange deutsche Wörter */
+  html[lang="de"],
+  html[lang="de-AT"] {
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+  }
+
+  /* Verhindere horizontales Scrollen durch zu lange Wörter */
+  body {
+    overflow-x: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Titel und Text-Elemente: Automatischer Zeilenumbruch */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Extra für sehr lange Compound-Wörter (Deutsch) */
+  @media (max-width: 640px) {
+    h1, h2, h3 {
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
+  }
+}
+
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
