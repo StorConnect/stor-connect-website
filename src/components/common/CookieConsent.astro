@@ -1,92 +1,38 @@
 ---
-// Cookie Consent mit lokalem Klaro (npm package)
-import 'klaro/dist/klaro.css';
+// Cookie Consent - Eigenes Design mit Klaro nur für Logic
+// KEIN Klaro CSS - komplett custom Implementation
 ---
 
 <script is:inline>
-  // Klaro Config MUSS VOR dem Klaro-Script definiert werden
+  // Klaro Config - NUR für Consent-Management Logic
   window.klaroConfig = {
     version: 1,
-    elementID: 'klaro',
     storageMethod: 'cookie',
-    cookieName: 'klaro-consent',
+    cookieName: 'stor-cookie-consent',
     cookieExpiresAfterDays: 365,
     
-    // WICHTIG: Bottom Notice statt zentrales Modal
-    noticeAsModal: false,        // Kein Modal-Overlay
-    embedded: false,              // Nicht embedded
-    groupByPurpose: false,        // Services einzeln anzeigen
-    
-    htmlTexts: true,              // HTML in Beschreibungen erlauben
-    hideDeclineAll: false,        // "Nur notwendige" Button anzeigen
-    hideLearnMore: false,         // "Mehr erfahren" Link anzeigen
+    // WICHTIG: Klaro's UI komplett deaktivieren
+    noAutoLoad: true,           // Kein automatisches Banner
+    embedded: true,             // Nur API nutzen
     
     default: false,
     mustConsent: true,
-    acceptAll: true,
-    
-    lang: 'de',
-    
-    translations: {
-      de: {
-        consentModal: {
-          title: 'Cookie-Einstellungen',
-          description: 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und deine Erfahrung zu verbessern.',
-        },
-        consentNotice: {
-          title: '🍪 Cookie-Einstellungen',
-          description: 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und deine Erfahrung zu verbessern.',
-          changeDescription: 'Es gab Änderungen seit Ihrem letzten Besuch.',
-          learnMore: 'Mehr erfahren',
-        },
-        decline: 'Nur notwendige',
-        acceptAll: 'Alle Cookies akzeptieren',
-        acceptSelected: 'Auswahl speichern',
-        ok: 'Alle akzeptieren',
-        save: 'Auswahl speichern',
-        close: 'Schließen',
-        privacyPolicyUrl: '/datenschutz',
-        app: {
-          disableAll: {
-            title: 'Alle Anwendungen umschalten',
-            description: 'Verwenden Sie diesen Schalter, um alle Anwendungen zu aktivieren/deaktivieren.'
-          },
-          optOut: {
-            title: '(Opt-Out)',
-            description: 'Diese Anwendung wird standardmäßig geladen.'
-          },
-          required: {
-            title: '(immer erforderlich)',
-            description: 'Diese Anwendung ist immer erforderlich.'
-          },
-          purposes: 'Zwecke',
-          purpose: 'Zweck'
-        },
-        poweredBy: ''
-      }
-    },
     
     services: [
       {
         name: 'necessary',
-        title: 'Notwendige Cookies',
-        description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
         purposes: ['essential'],
         required: true,
         default: true,
       },
       {
         name: 'analytics',
-        title: 'Analyse-Cookies',
-        description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren. Alle Informationen werden anonym gesammelt.',
         purposes: ['analytics'],
         required: false,
         default: false,
       },
       {
         name: 'functional',
-        title: 'Funktionale Cookies',
-        description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung wie Videos und Live-Chat.',
         purposes: ['functional'],
         required: false,
         default: false,
@@ -96,320 +42,556 @@ import 'klaro/dist/klaro.css';
 </script>
 
 <script>
-  // Klaro vom npm package importieren und initialisieren
+  // Klaro vom npm package importieren (nur Logic, kein UI)
   import * as Klaro from 'klaro';
   
-  // Warte bis DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      Klaro.setup(window.klaroConfig);
-    });
-  } else {
+  // Initialisiere Klaro ohne UI
+  if (typeof window !== 'undefined') {
     Klaro.setup(window.klaroConfig);
   }
 </script>
 
+<!-- Custom STOR Connect Cookie Banner -->
+<div id="stor-cookie-banner" class="stor-cookie-banner" style="display: none;">
+  <div class="stor-cookie-backdrop"></div>
+  
+  <div class="stor-cookie-content">
+    <div class="stor-cookie-header">
+      <span class="stor-cookie-emoji">🍪</span>
+      <h3 class="stor-cookie-title">Cookie-Einstellungen</h3>
+    </div>
+    
+    <p class="stor-cookie-text">
+      Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, 
+      während andere uns helfen, diese Website und deine Erfahrung zu verbessern.
+    </p>
+    
+    <div class="stor-cookie-links">
+      <a href="/impressum" class="stor-cookie-link">Impressum</a>
+      <a href="/datenschutz" class="stor-cookie-link">Datenschutz</a>
+      <button id="stor-cookie-details" class="stor-cookie-link stor-cookie-link-btn">
+        Cookie Richtlinien
+      </button>
+    </div>
+    
+    <div class="stor-cookie-buttons">
+      <button id="stor-accept-all" class="stor-btn stor-btn-primary">
+        Alle Cookies akzeptieren
+      </button>
+      <button id="stor-accept-necessary" class="stor-btn stor-btn-secondary">
+        Nur notwendige
+      </button>
+    </div>
+  </div>
+  
+  <!-- Details Modal (wenn "Cookie Richtlinien" geklickt) -->
+  <div id="stor-cookie-details-modal" class="stor-cookie-modal" style="display: none;">
+    <div class="stor-modal-content">
+      <div class="stor-modal-header">
+        <h3>Cookie-Einstellungen</h3>
+        <button id="stor-modal-close" class="stor-modal-close">&times;</button>
+      </div>
+      
+      <div class="stor-modal-body">
+        <div class="stor-cookie-category">
+          <details open>
+            <summary class="stor-category-title">
+              <span>Notwendige Cookies</span>
+              <span class="stor-category-badge">Immer aktiv</span>
+            </summary>
+            <p class="stor-category-desc">
+              Diese Cookies sind für die Grundfunktionen der Website erforderlich 
+              und können nicht deaktiviert werden.
+            </p>
+          </details>
+        </div>
+        
+        <div class="stor-cookie-category">
+          <details>
+            <summary class="stor-category-title">
+              <span>Cookies für Marketing</span>
+              <label class="stor-toggle">
+                <input type="checkbox" id="stor-toggle-marketing" data-service="functional">
+                <span class="stor-toggle-slider"></span>
+              </label>
+            </summary>
+            <p class="stor-category-desc">
+              Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.
+            </p>
+          </details>
+        </div>
+        
+        <div class="stor-cookie-category">
+          <details>
+            <summary class="stor-category-title">
+              <span>Cookies für Analyse</span>
+              <label class="stor-toggle">
+                <input type="checkbox" id="stor-toggle-analytics" data-service="analytics">
+                <span class="stor-toggle-slider"></span>
+              </label>
+            </summary>
+            <p class="stor-category-desc">
+              Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.
+            </p>
+          </details>
+        </div>
+      </div>
+      
+      <div class="stor-modal-footer">
+        <button id="stor-modal-save" class="stor-btn stor-btn-primary stor-btn-large">
+          Auswahl speichern
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Custom Cookie Banner Logic mit Klaro API
+  import * as Klaro from 'klaro';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.getElementById('stor-cookie-banner');
+    const detailsModal = document.getElementById('stor-cookie-details-modal');
+    const acceptAllBtn = document.getElementById('stor-accept-all');
+    const acceptNecessaryBtn = document.getElementById('stor-accept-necessary');
+    const detailsBtn = document.getElementById('stor-cookie-details');
+    const modalClose = document.getElementById('stor-modal-close');
+    const modalSave = document.getElementById('stor-modal-save');
+    
+    // Klaro initialisieren (nur Logic, kein UI)
+    const manager = Klaro.getManager(window.klaroConfig);
+    
+    // Banner anzeigen wenn noch keine Consent-Entscheidung
+    const savedConsents = manager.consents;
+    if (!savedConsents || Object.keys(savedConsents).length === 0) {
+      banner.style.display = 'block';
+    }
+    
+    // "Alle akzeptieren" Button
+    acceptAllBtn.addEventListener('click', () => {
+      manager.updateConsent('necessary', true);
+      manager.updateConsent('analytics', true);
+      manager.updateConsent('functional', true);
+      manager.saveAndApplyConsents();
+      banner.style.display = 'none';
+    });
+    
+    // "Nur notwendige" Button
+    acceptNecessaryBtn.addEventListener('click', () => {
+      manager.updateConsent('necessary', true);
+      manager.updateConsent('analytics', false);
+      manager.updateConsent('functional', false);
+      manager.saveAndApplyConsents();
+      banner.style.display = 'none';
+    });
+    
+    // "Cookie Richtlinien" - Details Modal öffnen
+    detailsBtn.addEventListener('click', () => {
+      detailsModal.style.display = 'flex';
+      
+      // Toggle-States aus gespeicherten Consents laden
+      const consents = manager.consents;
+      document.getElementById('stor-toggle-analytics').checked = consents.analytics || false;
+      document.getElementById('stor-toggle-marketing').checked = consents.functional || false;
+    });
+    
+    // Modal schließen
+    modalClose.addEventListener('click', () => {
+      detailsModal.style.display = 'none';
+    });
+    
+    // "Auswahl speichern" im Modal
+    modalSave.addEventListener('click', () => {
+      const analyticsChecked = document.getElementById('stor-toggle-analytics').checked;
+      const marketingChecked = document.getElementById('stor-toggle-marketing').checked;
+      
+      manager.updateConsent('necessary', true);
+      manager.updateConsent('analytics', analyticsChecked);
+      manager.updateConsent('functional', marketingChecked);
+      manager.saveAndApplyConsents();
+      
+      detailsModal.style.display = 'none';
+      banner.style.display = 'none';
+    });
+    
+    // Modal Backdrop schließt Modal
+    detailsModal.addEventListener('click', (e) => {
+      if (e.target === detailsModal) {
+        detailsModal.style.display = 'none';
+      }
+    });
+  });
+</script>
+
 <style is:global>
 /* ========================================
-   STOR CONNECT - MODERNES COOKIE BANNER
-   Bottom-Position, Clean Design, Mobile-First
+   STOR CONNECT - CUSTOM COOKIE BANNER
+   Eigenes Design ohne Klaro CSS
    ======================================== */
 
-/* 1. BASE STYLES - Banner am Bottom */
-.klaro .cookie-notice {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  top: auto !important;
-  transform: none !important;
-  
-  max-width: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 1.5rem !important;
-  
-  background: #ffffff !important;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1) !important;
-  border-radius: 0 !important;
-  border-top: 1px solid #e5e7eb !important;
-  
-  font-family: 'Inter Variable', system-ui, sans-serif !important;
-  z-index: 9999 !important;
+/* BACKDROP - Dezenter Overlay */
+.stor-cookie-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
 }
 
-/* Desktop: Zentrierte Box am Bottom */
+/* BANNER CONTAINER */
+.stor-cookie-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.stor-cookie-banner * {
+  pointer-events: auto;
+}
+
+/* COOKIE CONTENT BOX */
+.stor-cookie-content {
+  position: relative;
+  background: white;
+  border-radius: 0;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  font-family: 'Inter Variable', system-ui, sans-serif;
+  animation: slideUpBanner 0.3s ease-out;
+}
+
+/* DESKTOP: Zentrierte Box am Bottom */
 @media (min-width: 768px) {
-  .klaro .cookie-notice {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    max-width: 600px !important;
-    width: auto !important;
-    min-width: 500px !important;
-    bottom: 2rem !important;
-    border-radius: 12px !important;
-    border: 1px solid #e5e7eb !important;
+  .stor-cookie-content {
+    max-width: 550px;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    border: 1px solid #e5e7eb;
   }
 }
 
-/* 2. OVERLAY - Dezenter Hintergrund */
-.klaro .cookie-notice-hidden {
-  display: none !important;
-}
-
-.klaro .cn-backdrop {
-  background: rgba(0, 0, 0, 0.3) !important;
-}
-
-/* 3. TYPOGRAPHY - Clean & Readable */
-.klaro .cookie-notice .cn-title {
-  font-size: 1.25rem !important;
-  font-weight: 600 !important;
-  color: #36454F !important;
-  margin-bottom: 0.75rem !important;
-  line-height: 1.4 !important;
-}
-
-.klaro .cookie-notice .cn-body {
-  font-size: 0.95rem !important;
-  color: #6b7280 !important;
-  line-height: 1.6 !important;
-  margin-bottom: 1.5rem !important;
-}
-
-/* 4. BUTTONS - STOR Connect Styling */
-.klaro .cookie-notice .cn-buttons {
-  display: flex !important;
-  gap: 0.75rem !important;
-  flex-wrap: wrap !important;
-  margin-top: 1.5rem !important;
-}
-
-/* Primary Button - STOR Rot */
-.klaro .cn-decline,
-.klaro .cm-btn.cm-btn-success,
-.klaro .cookie-notice .cm-btn.cm-btn-success {
-  background-color: #E01D22 !important;
-  color: white !important;
-  border: none !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  font-size: 0.95rem !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  flex: 1 !important;
-  min-width: 140px !important;
-}
-
-.klaro .cm-btn.cm-btn-success:hover {
-  background-color: #C9302C !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(224, 29, 34, 0.3) !important;
-}
-
-/* Secondary Button - Grau */
-.klaro .cm-btn.cm-btn-decline,
-.klaro .cookie-notice .cm-btn-info {
-  background-color: #f3f4f6 !important;
-  color: #36454F !important;
-  border: 1px solid #e5e7eb !important;
-  padding: 0.75rem 1.5rem !important;
-  border-radius: 8px !important;
-  font-weight: 500 !important;
-  font-size: 0.95rem !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  flex: 1 !important;
-  min-width: 140px !important;
-}
-
-.klaro .cm-btn.cm-btn-decline:hover,
-.klaro .cookie-notice .cm-btn-info:hover {
-  background-color: #e5e7eb !important;
-  border-color: #d1d5db !important;
-}
-
-/* 5. LEARN MORE LINK */
-.klaro .cookie-notice .cn-learn-more {
-  color: #E01D22 !important;
-  text-decoration: underline !important;
-  font-size: 0.9rem !important;
-  margin-top: 1rem !important;
-  display: inline-block !important;
-  cursor: pointer !important;
-}
-
-.klaro .cookie-notice .cn-learn-more:hover {
-  color: #C9302C !important;
-}
-
-/* 6. MODAL (wenn "Mehr erfahren" geklickt) */
-.klaro .cookie-modal {
-  background: white !important;
-  border-radius: 12px !important;
-  max-width: 600px !important;
-  padding: 2rem !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
-}
-
-.klaro .cookie-modal .cm-modal-title {
-  font-size: 1.5rem !important;
-  font-weight: 600 !important;
-  color: #36454F !important;
-  margin-bottom: 1rem !important;
-}
-
-/* 7. SERVICE LIST (Cookie-Kategorien) */
-.klaro .cookie-modal .cm-services {
-  margin: 1.5rem 0 !important;
-}
-
-.klaro .cm-service {
-  border: 1px solid #e5e7eb !important;
-  border-radius: 8px !important;
-  padding: 1rem !important;
-  margin-bottom: 0.75rem !important;
-  background: #fafafa !important;
-}
-
-.klaro .cm-service .cm-service-title {
-  font-weight: 600 !important;
-  color: #36454F !important;
-  font-size: 1rem !important;
-}
-
-.klaro .cm-service .cm-service-description {
-  font-size: 0.9rem !important;
-  color: #6b7280 !important;
-  margin-top: 0.5rem !important;
-}
-
-/* 8. TOGGLE SWITCHES - Modern Style */
-.klaro .cm-switch {
-  position: relative !important;
-  display: inline-block !important;
-  width: 48px !important;
-  height: 24px !important;
-}
-
-.klaro .cm-switch input {
-  opacity: 0 !important;
-  width: 0 !important;
-  height: 0 !important;
-}
-
-.klaro .cm-switch .cm-slider {
-  position: absolute !important;
-  cursor: pointer !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  background-color: #d1d5db !important;
-  border-radius: 24px !important;
-  transition: 0.3s !important;
-}
-
-.klaro .cm-switch input:checked + .cm-slider {
-  background-color: #E01D22 !important;
-}
-
-.klaro .cm-switch .cm-slider:before {
-  position: absolute !important;
-  content: "" !important;
-  height: 18px !important;
-  width: 18px !important;
-  left: 3px !important;
-  bottom: 3px !important;
-  background-color: white !important;
-  border-radius: 50% !important;
-  transition: 0.3s !important;
-}
-
-.klaro .cm-switch input:checked + .cm-slider:before {
-  transform: translateX(24px) !important;
-}
-
-/* 9. MOBILE OPTIMIERUNGEN */
-@media (max-width: 767px) {
-  .klaro .cookie-notice {
-    padding: 1.25rem !important;
-    border-radius: 0 !important;
-  }
-  
-  .klaro .cookie-notice .cn-title {
-    font-size: 1.1rem !important;
-  }
-  
-  .klaro .cookie-notice .cn-body {
-    font-size: 0.9rem !important;
-    margin-bottom: 1rem !important;
-  }
-  
-  .klaro .cookie-notice .cn-buttons {
-    flex-direction: column !important;
-    gap: 0.5rem !important;
-  }
-  
-  .klaro .cm-btn {
-    width: 100% !important;
-    min-width: 100% !important;
-    padding: 0.875rem 1rem !important;
-  }
-  
-  .klaro .cookie-modal {
-    max-width: 95vw !important;
-    max-height: 90vh !important;
-    overflow-y: auto !important;
-    margin: 1rem !important;
-    padding: 1.5rem !important;
-  }
-}
-
-/* 10. ACCESSIBILITY */
-.klaro .cm-btn:focus,
-.klaro .cm-switch:focus-within {
-  outline: 2px solid #E01D22 !important;
-  outline-offset: 2px !important;
-}
-
-/* 11. ANIMATIONS */
-.klaro .cookie-notice {
-  animation: slideUp 0.3s ease-out !important;
-}
-
-@keyframes slideUp {
+@keyframes slideUpBanner {
   from {
-    transform: translateY(100%) !important;
-    opacity: 0 !important;
+    transform: translateY(100%);
+    opacity: 0;
   }
   to {
-    transform: translateY(0) !important;
-    opacity: 1 !important;
+    transform: translateY(0);
+    opacity: 1;
   }
+}
+
+/* HEADER */
+.stor-cookie-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.stor-cookie-emoji {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.stor-cookie-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #36454F;
+  margin: 0;
+}
+
+/* TEXT */
+.stor-cookie-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #6b7280;
+  margin: 0 0 1rem 0;
+}
+
+/* LINKS */
+.stor-cookie-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.stor-cookie-link {
+  color: #36454F;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.stor-cookie-link:hover {
+  color: #E01D22;
+}
+
+/* BUTTONS */
+.stor-cookie-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
 }
 
 @media (min-width: 768px) {
-  .klaro .cookie-notice {
-    animation: slideUpCentered 0.3s ease-out !important;
-  }
-  
-  @keyframes slideUpCentered {
-    from {
-      transform: translate(-50%, 100%) !important;
-      opacity: 0 !important;
-    }
-    to {
-      transform: translate(-50%, 0) !important;
-      opacity: 1 !important;
-    }
+  .stor-cookie-buttons {
+    flex-direction: row;
   }
 }
 
-/* 12. PRINT - Banner ausblenden */
+.stor-btn {
+  padding: 0.875rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  flex: 1;
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  .stor-btn {
+    width: 100%;
+  }
+}
+
+.stor-btn-primary {
+  background-color: #E01D22;
+  color: white;
+}
+
+.stor-btn-primary:hover {
+  background-color: #C9302C;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(224, 29, 34, 0.3);
+}
+
+.stor-btn-secondary {
+  background-color: #f3f4f6;
+  color: #36454F;
+  border: 1px solid #e5e7eb;
+}
+
+.stor-btn-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+/* DETAILS MODAL */
+.stor-cookie-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+}
+
+.stor-modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.stor-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stor-modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #36454F;
+}
+
+.stor-modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+}
+
+.stor-modal-close:hover {
+  color: #36454F;
+}
+
+.stor-modal-body {
+  padding: 1.5rem;
+}
+
+.stor-cookie-category {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  background: #fafafa;
+}
+
+.stor-cookie-category details {
+  padding: 0;
+}
+
+.stor-cookie-category summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.stor-cookie-category summary::-webkit-details-marker {
+  display: none;
+}
+
+.stor-category-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-weight: 600;
+  color: #36454F;
+}
+
+.stor-category-badge {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6b7280;
+  background: #e5e7eb;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+}
+
+.stor-category-desc {
+  padding: 0 1rem 1rem 1rem;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* TOGGLE SWITCH */
+.stor-toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.stor-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.stor-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d1d5db;
+  border-radius: 24px;
+  transition: 0.3s;
+}
+
+.stor-toggle-slider:before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.stor-toggle input:checked + .stor-toggle-slider {
+  background-color: #E01D22;
+}
+
+.stor-toggle input:checked + .stor-toggle-slider:before {
+  transform: translateX(24px);
+}
+
+.stor-modal-footer {
+  padding: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.stor-btn-large {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+/* MOBILE OPTIMIERUNGEN */
+@media (max-width: 767px) {
+  .stor-cookie-content {
+    padding: 1.25rem;
+    border-radius: 0;
+  }
+  
+  .stor-cookie-title {
+    font-size: 1.1rem;
+  }
+  
+  .stor-cookie-text {
+    font-size: 0.9rem;
+  }
+  
+  .stor-modal-content {
+    border-radius: 12px 12px 0 0;
+    max-height: 85vh;
+  }
+}
+
+/* PRINT */
 @media print {
-  .klaro {
+  .stor-cookie-banner,
+  .stor-cookie-modal {
     display: none !important;
   }
 }
