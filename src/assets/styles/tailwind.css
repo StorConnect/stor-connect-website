@@ -10,12 +10,12 @@
     padding: 0 !important;
   }
 
-  /* DEBUG TEST: Wenn die "weiße Linie" ROT wird, ist es der Body-Background! */
+  /* Setze Background zurück auf weiß (Debug-Test abgeschlossen) */
   html {
-    background: #E01D22 !important; /* STOR Rot als Test */
+    background: white !important;
   }
   body {
-    background: #E01D22 !important; /* STOR Rot als Test */
+    background: white !important;
   }
 
   /* Mobile-First: Word-Breaking für lange deutsche Wörter */
@@ -94,6 +94,14 @@
   border-top: none !important;
   border-bottom: none !important;
   box-shadow: none !important;
+}
+
+/* CRITICAL FIX: Header muss am oberen Browser-Rand kleben! */
+#header {
+  position: sticky !important;
+  top: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 #header.scroll > div:first-child {
