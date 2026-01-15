@@ -98,10 +98,24 @@
 
 /* CRITICAL FIX: Header muss am oberen Browser-Rand kleben! */
 #header {
-  position: sticky !important;
+  position: fixed !important;
   top: 0 !important;
-  margin-top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
   padding-top: 0 !important;
+  z-index: 9999 !important;
+}
+
+/* Body muss Platz für fixed header machen */
+body {
+  padding-top: 76px !important; /* Header Höhe */
+}
+
+/* Hero Section muss negative margin kompensieren */
+main > section:first-child {
+  margin-top: -76px !important;
+  padding-top: 76px !important;
 }
 
 #header.scroll > div:first-child {
