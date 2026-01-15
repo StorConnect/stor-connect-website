@@ -352,11 +352,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
      ======================================== */
   
   /* STANDARD: Logo weiß ist sichtbar, Logo dunkel hidden */
-  .logo-dark { 
-    display: none;
+  #header .logo-dark { 
+    display: none !important;
   }
-  .logo-light { 
-    display: block;
+  #header .logo-light { 
+    display: block !important;
   }
 
   /* STANDARD: Menü & Icons weiß auf Hero */

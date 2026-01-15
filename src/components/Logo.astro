@@ -129,6 +129,22 @@ const spinnerSizes = {
     }
   }
 
+  /* CRITICAL: Nur ein Logo sichtbar! */
+  .logo-dark {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    pointer-events: none !important;
+  }
+  
+  .logo-light {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+  }
+
   /* Smooth Transitions */
   .logo-image {
     transition: all 0.3s ease;
