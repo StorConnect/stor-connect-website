@@ -19,18 +19,18 @@ const {
 ---
 
 <section 
-  class="relative md:-mt-[76px] not-prose min-h-[600px] md:min-h-[700px] flex items-center" 
+  class="relative md:-mt-[76px] not-prose min-h-[600px] md:min-h-[700px] flex items-center w-full overflow-hidden" 
   {...id ? { id } : {}}
 >
-  <!-- Background Image mit Dark Overlay -->
+  <!-- Background Image mit Dark Overlay - Fullwidth -->
   {image && (
-    <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 left-1/2 -translate-x-1/2 w-screen z-0">
       {typeof image === 'string' ? (
         <Fragment set:html={image} />
       ) : (
         <>
           <Image
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover object-center"
             widths={[640, 768, 1024, 1536, 1920]}
             sizes="100vw"
             loading="eager"

@@ -61,19 +61,19 @@ const spinnerSizes = {
     </span>
   )}
   
-  <!-- Light Mode Logo (grau) -->
+  <!-- Logo grau: Nur wenn gescrollt UND Light Mode -->
   <img 
     src="/logo.svg" 
     alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
-    class="logo-image dark:hidden"
+    class="logo-image logo-dark"
     loading="eager"
   />
   
-  <!-- Dark Mode Logo (weiß) -->
+  <!-- Logo weiß: Initial (nicht gescrollt) ODER Dark Mode -->
   <img 
     src="/logo-white.svg" 
     alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
-    class="logo-image hidden dark:block"
+    class="logo-image logo-light"
     loading="eager"
   />
 </a>

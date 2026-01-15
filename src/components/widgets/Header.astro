@@ -55,7 +55,6 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
 >
-  <div class="absolute inset-0"></div>
   <div
     class:list={[
       'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
@@ -94,7 +93,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                 <>
                   <button
                     type="button"
-                    class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap"
+                    class="menu-link hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap"
                   >
                     {text}{' '}
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
@@ -118,7 +117,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
               ) : (
                 <a
                   class:list={[
-                    'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
+                    'menu-link hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
                     { 'aw-link-active': href === currentPath },
                   ]}
                   href={href}
@@ -346,4 +345,81 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       /* display wird von tailwind.css .dropdown:hover gesteuert */
     }
   }
+
+  /* ========================================
+     Logo & Menü Farbe: Dynamisch basierend auf Scroll
+     ======================================== */
+  
+  /* Default: Hero sichtbar (nicht gescrollt) - Logo & Menü weiß */
+  header:not(.scrolled) .logo-dark { 
+    display: none !important; 
+  }
+  header:not(.scrolled) .logo-light { 
+    display: block !important; 
+  }
+  header:not(.scrolled) .menu-link {
+    color: white !important;
+  }
+
+  /* Gescrollt: Heller Hintergrund - Logo & Menü dunkel */
+  header.scrolled .logo-dark { 
+    display: block !important; 
+  }
+  header.scrolled .logo-light { 
+    display: none !important; 
+  }
+  header.scrolled .menu-link {
+    color: var(--aw-color-text-default) !important;
+  }
+
+  /* Dark Mode: Logo & Menü immer weiß */
+  .dark header .logo-dark { 
+    display: none !important; 
+  }
+  .dark header .logo-light { 
+    display: block !important; 
+  }
+  .dark header .menu-link {
+    color: white !important;
+  }
+
+  /* Smooth Transitions */
+  .logo-image,
+  .menu-link {
+    transition: all 0.3s ease;
+  }
 </style>
+
+<script>
+  // Scroll-basierte Logo/Menü Farbe
+  function initHeaderScrollBehavior() {
+    const header = document.querySelector('header');
+    const heroSection = document.querySelector('main > section:first-child'); // Erste section = Hero
+    
+    if (!header) return;
+    
+    function updateHeaderState() {
+      const scrollY = window.scrollY;
+      const heroHeight = heroSection ? heroSection.offsetHeight : 700;
+      
+      // Wenn mehr als 100px gescrollt ODER Hero nicht mehr sichtbar
+      if (scrollY > 100 || scrollY > heroHeight * 0.3) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+    
+    // Initial check
+    updateHeaderState();
+    
+    // On scroll
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+  }
+  
+  // Initialize on page load
+  document.addEventListener('DOMContentLoaded', initHeaderScrollBehavior);
+  
+  // Also run on navigation (for SPA-like behavior)
+  document.addEventListener('astro:page-load', initHeaderScrollBehavior);
+</script>
