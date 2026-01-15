@@ -359,12 +359,20 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     display: block;
   }
 
-  /* STANDARD: Menü weiß auf Hero */
+  /* STANDARD: Menü & Icons weiß auf Hero */
   .menu-link {
     color: white;
   }
 
-  /* LIGHT MODE + GESCROLLT (.scroll Klasse von BasicScripts): Logo dunkel, Menü dunkel */
+  /* STANDARD: Toggle Theme Icon weiß auf Hero */
+  [data-aw-toggle-color-scheme] {
+    color: white !important;
+  }
+  [data-aw-toggle-color-scheme] svg {
+    color: white !important;
+  }
+
+  /* LIGHT MODE + GESCROLLT (.scroll Klasse von BasicScripts): Logo dunkel, Menü dunkel, Icons dunkel */
   html:not(.dark) #header.scroll .logo-dark { 
     display: block;
   }
@@ -374,8 +382,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   html:not(.dark) #header.scroll .menu-link {
     color: var(--aw-color-text-default);
   }
+  html:not(.dark) #header.scroll [data-aw-toggle-color-scheme] {
+    color: var(--aw-color-text-default) !important;
+  }
+  html:not(.dark) #header.scroll [data-aw-toggle-color-scheme] svg {
+    color: var(--aw-color-text-default) !important;
+  }
 
-  /* DARK MODE: Logo & Menü bleiben IMMER weiß */
+  /* DARK MODE: Logo, Menü & Icons bleiben IMMER weiß */
   html.dark .logo-dark { 
     display: none;
   }
@@ -384,6 +398,12 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   }
   html.dark .menu-link {
     color: white;
+  }
+  html.dark [data-aw-toggle-color-scheme] {
+    color: white !important;
+  }
+  html.dark [data-aw-toggle-color-scheme] svg {
+    color: white !important;
   }
 
   /* Transitions */
