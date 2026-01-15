@@ -340,9 +340,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       background: transparent !important;
     }
 
+    /* CRITICAL: Reset dropdown für Desktop - entferne !important damit :hover funktioniert */
     .mobile-menu .dropdown-menu {
-      display: none !important;
-      padding-left: 0 !important;
+      padding-left: 0;
+      /* display wird von tailwind.css .dropdown:hover gesteuert */
     }
   }
 </style>
