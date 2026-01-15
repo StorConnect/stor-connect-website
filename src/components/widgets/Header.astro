@@ -51,6 +51,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
     'top-0 z-40 flex-none mx-auto w-full transition-[opacity] ease-in-out',
+    'bg-white border-b border-gray-100',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -347,71 +348,27 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   }
 
   /* ========================================
-     Logo & Menü: Dynamisch basierend auf Scroll
-     STANDARD = WEISS, Switch mit .scroll Klasse (BasicScripts)
+     EINFACH & CLEAN - Menü immer dunkel auf weißem Hintergrund
      ======================================== */
   
-  /* STANDARD: Logo weiß ist sichtbar, Logo dunkel hidden */
-  #header .logo-dark { 
-    display: none !important;
-  }
-  #header .logo-light { 
-    display: block !important;
-  }
-
-  /* STANDARD: Menü & Icons weiß auf Hero */
+  /* Menü-Links: Dunkle CI Farbe */
   #header .menu-link {
-    color: white !important;
-  }
-
-  /* STANDARD: Toggle Theme Icon weiß auf Hero */
-  #header [data-aw-toggle-color-scheme] {
-    color: white !important;
-  }
-  #header [data-aw-toggle-color-scheme] svg {
-    color: white !important;
-  }
-
-  /* LIGHT MODE + GESCROLLT (.scroll Klasse von BasicScripts): Logo dunkel, Menü dunkel, Icons dunkel */
-  html:not(.dark) #header.scroll .logo-dark { 
-    display: block !important;
-  }
-  html:not(.dark) #header.scroll .logo-light { 
-    display: none !important;
-  }
-  html:not(.dark) #header.scroll .menu-link {
-    color: var(--aw-color-text-default) !important;
-  }
-  html:not(.dark) #header.scroll [data-aw-toggle-color-scheme] {
-    color: var(--aw-color-text-default) !important;
-  }
-  html:not(.dark) #header.scroll [data-aw-toggle-color-scheme] svg {
-    color: var(--aw-color-text-default) !important;
-  }
-
-  /* DARK MODE: Logo, Menü & Icons bleiben IMMER weiß */
-  html.dark .logo-dark { 
-    display: none;
-  }
-  html.dark .logo-light { 
-    display: block;
-  }
-  html.dark .menu-link {
-    color: white;
-  }
-  html.dark [data-aw-toggle-color-scheme] {
-    color: white !important;
-  }
-  html.dark [data-aw-toggle-color-scheme] svg {
-    color: white !important;
-  }
-
-  /* Transitions */
-  .logo-image {
-    transition: opacity 0.2s ease;
-  }
-  .menu-link {
+    color: rgb(54, 69, 79) !important; /* #36454F - STOR Dunkelgrau */
     transition: color 0.2s ease;
+  }
+
+  #header .menu-link:hover {
+    color: rgb(224, 29, 34) !important; /* #E01D22 - STOR Rot */
+  }
+
+  /* Dark Mode Toggle Icon: Auch dunkel */
+  #header [data-aw-toggle-color-scheme] {
+    color: rgb(54, 69, 79) !important;
+    transition: color 0.2s ease;
+  }
+
+  #header [data-aw-toggle-color-scheme] svg {
+    color: rgb(54, 69, 79) !important;
   }
 </style>
 

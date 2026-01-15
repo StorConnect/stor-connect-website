@@ -61,19 +61,11 @@ const spinnerSizes = {
     </span>
   )}
   
-  <!-- Logo grau: Nur wenn gescrollt UND Light Mode -->
+  <!-- Logo: Nur dunkle Version, immer sichtbar -->
   <img 
     src="/logo.svg" 
     alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
-    class="logo-image logo-dark"
-    loading="eager"
-  />
-  
-  <!-- Logo weiß: STANDARD (immer initial sichtbar) -->
-  <img 
-    src="/logo-white.svg" 
-    alt="STOR Connect - Ihr Partner für Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung" 
-    class="logo-image logo-light"
+    class="logo-image"
     loading="eager"
   />
 </a>
@@ -129,25 +121,10 @@ const spinnerSizes = {
     }
   }
 
-  /* CRITICAL: Nur ein Logo sichtbar! */
-  .logo-dark {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    position: absolute !important;
-    pointer-events: none !important;
-  }
-  
-  .logo-light {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-  }
-
-  /* Smooth Transitions */
+  /* Logo: Einfach & Clean */
   .logo-image {
-    transition: all 0.3s ease;
+    display: block;
+    height: auto;
   }
 
   /* Print: Keine Animation */
