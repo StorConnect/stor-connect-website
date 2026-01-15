@@ -30,13 +30,13 @@ const {
       ) : (
         <>
           <Image
-            class="w-full h-full object-cover object-center"
-            widths={[640, 768, 1024, 1536, 1920]}
+            class="hero-image w-full h-full object-cover object-center"
+            widths={[640, 768, 1024, 1536, 1920, 2560]}
             sizes="100vw"
             loading="eager"
             format="webp"
-            width={1920}
-            height={1080}
+            width={2560}
+            height={1440}
             {...image}
           />
           <!-- Dark Overlay für Text-Lesbarkeit -->
@@ -128,6 +128,15 @@ const {
   /* Optimiere Image-Rendering */
   section img {
     object-position: center;
+  }
+
+  /* CRITICAL FIX: Force image to always fill container width */
+  .hero-image,
+  section img {
+    min-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
 </style>
 
