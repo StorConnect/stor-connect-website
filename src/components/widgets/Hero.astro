@@ -18,20 +18,50 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative md:-mt-[76px] not-prose" {...id ? { id } : {}}>
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+<section 
+  class="relative md:-mt-[76px] not-prose min-h-[600px] md:min-h-[700px] flex items-center" 
+  {...id ? { id } : {}}
+>
+  <!-- Background Image mit Dark Overlay -->
+  {image && (
+    <div class="absolute inset-0 z-0">
+      {typeof image === 'string' ? (
+        <Fragment set:html={image} />
+      ) : (
+        <>
+          <Image
+            class="w-full h-full object-cover"
+            widths={[640, 768, 1024, 1536, 1920]}
+            sizes="100vw"
+            loading="eager"
+            format="webp"
+            width={1920}
+            height={1080}
+            {...image}
+          />
+          <!-- Dark Overlay für Text-Lesbarkeit -->
+          <div class="absolute inset-0 bg-black/40"></div>
+        </>
+      )}
+    </div>
+  )}
+
+  <!-- Fallback bg slot für custom backgrounds -->
+  <div class="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
     <slot name="bg">
       {bg ? <Fragment set:html={bg} /> : null}
     </slot>
   </div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+
+  <!-- Content (Text, Buttons) im Vordergrund -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
     <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
     <div class="py-12 md:py-20">
       <div class="text-center pb-10 md:pb-16 max-w-5xl mx-auto">
         {
           tagline && (
             <p
-              class="text-base text-secondary dark:text-blue-200 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-base text-white/80 dark:text-white/80 font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
               set:html={tagline}
             />
           )
@@ -39,7 +69,7 @@ const {
         {
           title && (
             <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading dark:text-gray-200 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-white dark:text-white intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
               set:html={title}
             />
           )
@@ -48,7 +78,7 @@ const {
           {
             subtitle && (
               <p
-                class="text-xl text-muted mb-6 dark:text-slate-300 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+                class="text-xl text-white/90 dark:text-white/90 mb-6 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
                 set:html={subtitle}
               />
             )
@@ -71,29 +101,32 @@ const {
         </div>
         {content && <Fragment set:html={content} />}
       </div>
-      <div
-        class="intersect-once intersect-no-queue intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-      >
-        {
-          image && (
-            <div class="relative m-auto max-w-5xl">
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
-              ) : (
-                <Image
-                  class="mx-auto rounded-md w-full"
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  width={1024}
-                  height={576}
-                  {...image}
-                />
-              )}
-            </div>
-          )
-        }
-      </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Hero Background Image Optimierungen */
+  section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Verhindere Layout Shift während Image lädt */
+  @media (max-width: 767px) {
+    section {
+      min-height: 600px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    section {
+      min-height: 700px;
+    }
+  }
+
+  /* Optimiere Image-Rendering */
+  section img {
+    object-position: center;
+  }
+</style>
