@@ -182,7 +182,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       right: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(54, 69, 79, 0.98);
+      background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       transform: translateX(100%);
@@ -198,7 +198,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     /* Fallback for browsers without backdrop-filter */
     @supports not (backdrop-filter: blur(10px)) {
       .mobile-menu {
-        background: rgb(54, 69, 79);
+        background: rgb(255, 255, 255);
       }
     }
 
@@ -225,10 +225,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
     .mobile-menu .menu-item a,
     .mobile-menu .menu-item button {
-      font-size: 1.25rem; /* 20px */
-      font-weight: 500;
+      font-size: 1.875rem; /* 30px - Große rote Menüpunkte! */
+      font-weight: 600;
       padding: 1rem 1.5rem;
-      color: white;
+      color: #E01D22; /* STOR Rot! */
       width: 100%;
       text-align: left;
       border-left: 4px solid transparent;
@@ -239,15 +239,16 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     .mobile-menu .menu-item.active a,
     .mobile-menu .menu-item.active button {
       border-left-color: #E01D22;
-      background: rgba(224, 29, 34, 0.1);
-      color: white;
+      background: rgba(224, 29, 34, 0.08);
+      color: #C9302C; /* Dunkleres Rot für Active */
     }
 
     /* Hover State */
     .mobile-menu .menu-item a:hover,
     .mobile-menu .menu-item button:hover {
       border-left-color: #E01D22;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(224, 29, 34, 0.05);
+      color: #C9302C; /* Dunkleres Rot für Hover */
     }
 
     /* Sub-menu Items */
@@ -270,16 +271,17 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     .mobile-menu .dropdown-menu li:nth-child(4) { animation-delay: 0.8s; }
 
     .mobile-menu .dropdown-menu a {
-      font-size: 1rem; /* 16px */
-      font-weight: 400;
+      font-size: 1.125rem; /* 18px - Größer für Dropdown */
+      font-weight: 500;
       padding: 0.75rem 1rem;
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(224, 29, 34, 0.85); /* STOR Rot mit Transparenz */
       border-left: 3px solid transparent;
     }
 
     .mobile-menu .dropdown-menu a:hover {
-      color: white;
+      color: #E01D22; /* Volle Intensität bei Hover */
       border-left-color: #E01D22;
+      background: rgba(224, 29, 34, 0.05);
     }
 
     /* Dropdown is always open on mobile menu */
