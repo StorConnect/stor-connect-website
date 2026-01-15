@@ -348,9 +348,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
   /* ========================================
      Logo & Menü Farbe: Dynamisch basierend auf Scroll
+     KEIN DOPPELTES LOGO - NUR EINES SICHTBAR!
      ======================================== */
   
-  /* Default: Hero sichtbar (nicht gescrollt) - Logo & Menü weiß */
+  /* Default: Hero sichtbar (nicht gescrollt) - Logo weiß, Menü weiß */
   header:not(.scrolled) .logo-dark { 
     display: none !important; 
   }
@@ -361,18 +362,18 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     color: white !important;
   }
 
-  /* Gescrollt: Heller Hintergrund - Logo & Menü dunkel */
-  header.scrolled .logo-dark { 
+  /* Gescrollt im LIGHT MODE - Logo dunkel, Menü dunkel */
+  header.scrolled:not(.dark *) .logo-dark { 
     display: block !important; 
   }
-  header.scrolled .logo-light { 
+  header.scrolled:not(.dark *) .logo-light { 
     display: none !important; 
   }
-  header.scrolled .menu-link {
+  header.scrolled:not(.dark *) .menu-link {
     color: var(--aw-color-text-default) !important;
   }
 
-  /* Dark Mode: Logo & Menü immer weiß */
+  /* Dark Mode: Logo & Menü IMMER weiß (egal ob gescrollt) */
   .dark header .logo-dark { 
     display: none !important; 
   }
@@ -384,9 +385,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   }
 
   /* Smooth Transitions */
-  .logo-image,
+  .logo-image {
+    transition: opacity 0.3s ease;
+  }
   .menu-link {
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
   }
 </style>
 
