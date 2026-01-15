@@ -360,15 +360,15 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   }
 
   /* STANDARD: Menü & Icons weiß auf Hero */
-  .menu-link {
-    color: white;
+  #header .menu-link {
+    color: white !important;
   }
 
   /* STANDARD: Toggle Theme Icon weiß auf Hero */
-  [data-aw-toggle-color-scheme] {
+  #header [data-aw-toggle-color-scheme] {
     color: white !important;
   }
-  [data-aw-toggle-color-scheme] svg {
+  #header [data-aw-toggle-color-scheme] svg {
     color: white !important;
   }
 
