@@ -1,6 +1,6 @@
 {
   "name": "@storconnect/website",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "STOR Connect GmbH - Professionelle Baudienstleistungen in Wien: Tiefbau, Asphaltierung, Spülbohrungen und Glasfaserverlegung.",
   "type": "module",
   "private": true,
