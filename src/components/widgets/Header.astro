@@ -374,13 +374,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
   /* LIGHT MODE + GESCROLLT (.scroll Klasse von BasicScripts): Logo dunkel, Menü dunkel, Icons dunkel */
   html:not(.dark) #header.scroll .logo-dark { 
-    display: block;
+    display: block !important;
   }
   html:not(.dark) #header.scroll .logo-light { 
-    display: none;
+    display: none !important;
   }
   html:not(.dark) #header.scroll .menu-link {
-    color: var(--aw-color-text-default);
+    color: var(--aw-color-text-default) !important;
   }
   html:not(.dark) #header.scroll [data-aw-toggle-color-scheme] {
     color: var(--aw-color-text-default) !important;
