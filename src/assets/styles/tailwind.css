@@ -76,16 +76,30 @@
   }
 }
 
+/* CRITICAL FIX: Entferne ALLE Borders vom Header (weiße Linie!) */
+#header,
+#header *,
+#header > div,
+#header > div:first-child,
+#header > div:last-child {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
 #header.scroll > div:first-child {
   background: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
+  border: none !important;
 }
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
   background: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
+  border: none !important;
   border-bottom: none !important;
 }
 /* #header.scroll > div:last-child {
