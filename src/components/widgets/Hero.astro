@@ -19,10 +19,10 @@ const {
 ---
 
 <section 
-  class="relative md:-mt-[76px] not-prose min-h-[600px] md:min-h-[700px] flex items-center w-full overflow-hidden" 
+  class="relative md:-mt-[76px] not-prose min-h-[600px] md:min-h-[700px] flex items-center w-screen left-1/2 -translate-x-1/2 overflow-hidden" 
   {...id ? { id } : {}}
 >
-  <!-- Background Image mit Dark Overlay - Fullwidth -->
+  <!-- Background Image mit Dark Overlay - TRUE FULLWIDTH -->
   {image && (
     <div class="absolute inset-0 w-full h-full z-0">
       {typeof image === 'string' ? (

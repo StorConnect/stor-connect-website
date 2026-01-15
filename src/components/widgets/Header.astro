@@ -50,7 +50,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'top-0 z-40 flex-none mx-auto w-full transition-[opacity] ease-in-out',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -348,7 +348,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 
   /* ========================================
      Logo & Menü: Dynamisch basierend auf Scroll
-     STANDARD = WEISS, Switch nur bei Scroll in Light Mode
+     STANDARD = WEISS, Switch mit .scroll Klasse (BasicScripts)
      ======================================== */
   
   /* STANDARD: Logo weiß ist sichtbar, Logo dunkel hidden */
@@ -364,14 +364,14 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     color: white;
   }
 
-  /* LIGHT MODE + GESCROLLT: Logo dunkel, Menü dunkel */
-  html:not(.dark) header.scrolled .logo-dark { 
+  /* LIGHT MODE + GESCROLLT (.scroll Klasse von BasicScripts): Logo dunkel, Menü dunkel */
+  html:not(.dark) #header.scroll .logo-dark { 
     display: block;
   }
-  html:not(.dark) header.scrolled .logo-light { 
+  html:not(.dark) #header.scroll .logo-light { 
     display: none;
   }
-  html:not(.dark) header.scrolled .menu-link {
+  html:not(.dark) #header.scroll .menu-link {
     color: var(--aw-color-text-default);
   }
 
@@ -394,37 +394,3 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     transition: color 0.2s ease;
   }
 </style>
-
-<script>
-  // Scroll-basierte Logo/Menü Farbe
-  function initHeaderScrollBehavior() {
-    const header = document.querySelector('header');
-    const heroSection = document.querySelector('main > section:first-child'); // Erste section = Hero
-    
-    if (!header) return;
-    
-    function updateHeaderState() {
-      const scrollY = window.scrollY;
-      const heroHeight = heroSection ? heroSection.offsetHeight : 700;
-      
-      // Wenn mehr als 100px gescrollt ODER Hero nicht mehr sichtbar
-      if (scrollY > 100 || scrollY > heroHeight * 0.3) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    }
-    
-    // Initial check
-    updateHeaderState();
-    
-    // On scroll
-    window.addEventListener('scroll', updateHeaderState, { passive: true });
-  }
-  
-  // Initialize on page load
-  document.addEventListener('DOMContentLoaded', initHeaderScrollBehavior);
-  
-  // Also run on navigation (for SPA-like behavior)
-  document.addEventListener('astro:page-load', initHeaderScrollBehavior);
-</script>
