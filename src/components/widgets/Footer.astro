@@ -106,19 +106,40 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
 
 <script>
   // Cookie-Einstellungen Link Handler für vanilla-cookieconsent
-  document.addEventListener('DOMContentLoaded', () => {
-    // Finde alle Links die auf #cookie-settings verweisen
+  // Warte auf CookieConsent Initialisierung
+  function initCookieLinks() {
     const cookieLinks = document.querySelectorAll('a[href="#cookie-settings"]');
     
     cookieLinks.forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // vanilla-cookieconsent API - Preferences Modal öffnen
-        if (window.CookieConsent) {
-          window.CookieConsent.showPreferences();
-        }
+        // Warte bis window.CookieConsent verfügbar ist (max 5 Sekunden)
+        let attempts = 0;
+        const maxAttempts = 50;
+        
+        const checkAndShow = () => {
+          if (window.CookieConsent && typeof window.CookieConsent.showPreferences === 'function') {
+            console.log('[STOR] Cookie Preferences öffnen');
+            window.CookieConsent.showPreferences();
+          } else if (attempts < maxAttempts) {
+            attempts++;
+            setTimeout(checkAndShow, 100);
+          } else {
+            console.error('[STOR] CookieConsent nicht verfügbar nach 5 Sekunden');
+            alert('Cookie-Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.');
+          }
+        };
+        
+        checkAndShow();
       });
     });
-  });
+  }
+  
+  // Initialisiere nach DOMContentLoaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCookieLinks);
+  } else {
+    initCookieLinks();
+  }
 </script>
