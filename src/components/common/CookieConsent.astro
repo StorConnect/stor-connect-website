@@ -7,11 +7,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 <script>
   import * as CookieConsent from 'vanilla-cookieconsent';
 
-  console.log('[STOR] CookieConsent Modul geladen');
-
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('[STOR] Initialisiere Cookie Consent...');
-    
     try {
       CookieConsent.run({
       // DSGVO-Compliance Settings
@@ -94,12 +90,11 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
       }
     });
     
-    // Expose CookieConsent to window SOFORT nach run()
+    // Expose CookieConsent to window for footer link
     window.CookieConsent = CookieConsent;
-    console.log('[STOR] CookieConsent erfolgreich initialisiert und auf window exponiert');
     
     } catch (error) {
-      console.error('[STOR] Fehler beim Initialisieren von CookieConsent:', error);
+      console.error('CookieConsent initialization error:', error);
     }
   });
 </script>

@@ -120,13 +120,12 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
         
         const checkAndShow = () => {
           if (window.CookieConsent && typeof window.CookieConsent.showPreferences === 'function') {
-            console.log('[STOR] Cookie Preferences öffnen');
             window.CookieConsent.showPreferences();
           } else if (attempts < maxAttempts) {
             attempts++;
             setTimeout(checkAndShow, 100);
           } else {
-            console.error('[STOR] CookieConsent nicht verfügbar nach 5 Sekunden');
+            console.error('CookieConsent not available');
             alert('Cookie-Einstellungen konnten nicht geladen werden. Bitte laden Sie die Seite neu.');
           }
         };
