@@ -126,16 +126,28 @@ const {
   }
 
   /* Optimiere Image-Rendering */
-  section img {
-    object-position: center;
+  
+  /* MOBILE: Mehr vom Bild zeigen (Fahrzeuge sichtbar!) */
+  @media (max-width: 767px) {
+    .hero-image,
+    section img {
+      min-width: 100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center 25% !important; /* Zeigt mehr vom oberen Bereich */
+    }
   }
 
-  /* CRITICAL FIX: Force image to always fill container width */
-  .hero-image,
-  section img {
-    min-width: 100% !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
+  /* DESKTOP: Bleibt wie vorher (center) */
+  @media (min-width: 768px) {
+    .hero-image,
+    section img {
+      min-width: 100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
   }
 </style>
