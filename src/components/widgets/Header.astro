@@ -414,3 +414,48 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     transition: color 0.2s ease;
   }
 </style>
+
+<script>
+  // #region agent log
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('#header');
+    const menuLinks = document.querySelectorAll('.menu-link');
+    const toggleIcon = document.querySelector('[data-aw-toggle-color-scheme]');
+    
+    function logMenuColors() {
+      const logData = {
+        '🔬 HEADER STATE': {
+          hasScrollClass: header?.classList.contains('scroll'),
+          isDarkMode: document.documentElement.classList.contains('dark'),
+          scrollY: window.scrollY,
+        },
+        '🔬 MENU LINK (first)': {
+          computedColor: menuLinks[0] ? window.getComputedStyle(menuLinks[0]).color : null,
+          classes: menuLinks[0]?.className,
+        },
+        '🔬 TOGGLE ICON': {
+          computedColor: toggleIcon ? window.getComputedStyle(toggleIcon).color : null,
+          svgColor: toggleIcon?.querySelector('svg') ? window.getComputedStyle(toggleIcon.querySelector('svg')).color : null,
+        },
+      };
+      
+      console.log('═══════════════════════════════════════');
+      console.log('🚨 MENU COLOR DEBUG 🚨');
+      console.log('═══════════════════════════════════════');
+      Object.entries(logData).forEach(([key, value]) => {
+        console.log(key);
+        console.table(value);
+      });
+      console.log('═══════════════════════════════════════');
+    }
+    
+    // Log initial state
+    logMenuColors();
+    
+    // Log on scroll
+    window.addEventListener('scroll', () => {
+      setTimeout(logMenuColors, 100); // Wait for .scroll class to be added
+    }, { passive: true });
+  });
+  // #endregion
+</script>
