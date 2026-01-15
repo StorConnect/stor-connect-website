@@ -196,15 +196,20 @@ const {
 
   /* Optimiere Image-Rendering */
   
-  /* MOBILE: Mehr vom Bild zeigen (Fahrzeuge sichtbar!) */
+  /* MOBILE: GANZES BILD zeigen (kein Cropping!) */
   @media (max-width: 767px) {
     .hero-image,
     section img {
       min-width: 100% !important;
       width: 100% !important;
       height: 100% !important;
-      object-fit: cover !important;
-      object-position: center 10% !important; /* VIEL mehr Fahrzeuge! */
+      object-fit: contain !important; /* Zeigt GANZES Bild! */
+      object-position: center !important;
+    }
+    
+    /* Hintergrund für Letterboxing (falls nötig) */
+    section > div:first-child {
+      background: linear-gradient(135deg, rgba(54, 69, 79, 0.95), rgba(3, 6, 32, 0.95));
     }
   }
 
