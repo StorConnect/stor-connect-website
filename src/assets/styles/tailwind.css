@@ -10,6 +10,14 @@
     padding: 0 !important;
   }
 
+  /* DEBUG TEST: Wenn die "weiße Linie" ROT wird, ist es der Body-Background! */
+  html {
+    background: #E01D22 !important; /* STOR Rot als Test */
+  }
+  body {
+    background: #E01D22 !important; /* STOR Rot als Test */
+  }
+
   /* Mobile-First: Word-Breaking für lange deutsche Wörter */
   html[lang="de"],
   html[lang="de-AT"] {
