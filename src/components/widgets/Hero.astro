@@ -105,6 +105,75 @@ const {
   </div>
 </section>
 
+<script>
+  // #region agent log - Hero Image Debug
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroImage = document.querySelector('.hero-image');
+    
+    if (heroImage) {
+      const logHeroImageState = () => {
+        const computed = window.getComputedStyle(heroImage);
+        const rect = heroImage.getBoundingClientRect();
+        
+        const logData = {
+          timestamp: Date.now(),
+          location: 'Hero.astro:debug',
+          message: 'Hero Image State',
+          data: {
+            viewport: {
+              width: window.innerWidth,
+              height: window.innerHeight,
+              isMobile: window.innerWidth < 768
+            },
+            computedStyles: {
+              objectFit: computed.objectFit,
+              objectPosition: computed.objectPosition,
+              width: computed.width,
+              height: computed.height,
+              position: computed.position
+            },
+            imageDimensions: {
+              naturalWidth: heroImage.naturalWidth,
+              naturalHeight: heroImage.naturalHeight,
+              renderedWidth: rect.width,
+              renderedHeight: rect.height
+            },
+            classes: heroImage.className
+          },
+          sessionId: 'debug-session',
+          runId: 'hero-mobile-fix',
+          hypothesisId: 'A,B,C'
+        };
+        
+        // Log to console
+        console.log('═══════════════════════════════════════');
+        console.log('🔬 HERO IMAGE DEBUG 🔬');
+        console.log('═══════════════════════════════════════');
+        console.log('Viewport:', logData.data.viewport);
+        console.log('Computed Styles:', logData.data.computedStyles);
+        console.log('Image Dimensions:', logData.data.imageDimensions);
+        console.log('═══════════════════════════════════════');
+        
+        // Send to debug server
+        fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(logData)}).catch(()=>{});
+      };
+      
+      // Log initial state
+      if (heroImage.complete) {
+        logHeroImageState();
+      } else {
+        heroImage.addEventListener('load', logHeroImageState);
+      }
+      
+      // Log on resize
+      window.addEventListener('resize', () => {
+        setTimeout(logHeroImageState, 100);
+      });
+    }
+  });
+  // #endregion
+</script>
+
 <style>
   /* Hero Background Image Optimierungen */
   section {
