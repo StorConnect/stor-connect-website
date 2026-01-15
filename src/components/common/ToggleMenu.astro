@@ -15,15 +15,15 @@ const {
   <slot>
     <span
       aria-hidden="true"
-      class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:rotate-45 group-[.expanded]:translate-y-2.5"
+      class="burger-line-top h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition-all ease-in-out duration-300 opacity-80 group-[.expanded]:rotate-45 group-[.expanded]:translate-y-2.5"
     ></span>
     <span
       aria-hidden="true"
-      class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:opacity-0"
+      class="burger-line-middle h-0.5 w-6 my-1 rounded-full bg-stor-red transition-all ease-in-out duration-500 opacity-80 group-[.expanded]:translate-x-[calc(100vw-3rem)] group-[.expanded]:opacity-20"
     ></span>
     <span
       aria-hidden="true"
-      class="h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition ease transform duration-200 opacity-80 group-[.expanded]:-rotate-45 group-[.expanded]:-translate-y-2.5"
+      class="burger-line-bottom h-0.5 w-6 my-1 rounded-full bg-black dark:bg-white transition-all ease-in-out duration-300 opacity-80 group-[.expanded]:-rotate-45 group-[.expanded]:-translate-y-2.5"
     ></span>
   </slot>
 </button>

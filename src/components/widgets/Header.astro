@@ -79,15 +79,16 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
     <nav
-      class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
+      class="mobile-menu items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
+      data-mobile-menu
     >
       <ul
-        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
+        class="mobile-menu-items flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-medium md:justify-center"
       >
         {
-          links.map(({ text, href, links }) => (
-            <li class={links?.length ? 'dropdown' : ''}>
+          links.map(({ text, href, links }, index) => (
+            <li class={`menu-item ${links?.length ? 'dropdown' : ''} ${href === currentPath ? 'active' : ''}`} style={`animation-delay: ${(index + 1) * 0.1}s`}>
               {links?.length ? (
                 <>
                   <button
@@ -116,7 +117,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
               ) : (
                 <a
                   class:list={[
-                    'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
+                    'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap md:whitespace-normal',
                     { 'aw-link-active': href === currentPath },
                   ]}
                   href={href}
@@ -165,3 +166,153 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     </div>
   </div>
 </header>
+
+<style>
+  /* ========================================
+     STOR CONNECT - Mobile Menu Styles
+     Modern animated mobile menu
+     ======================================== */
+
+  /* Mobile Menu Base - Hidden by default on mobile */
+  @media (max-width: 767px) {
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(54, 69, 79, 0.98);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 50;
+      padding: 5rem 2rem 2rem;
+      overflow-y: auto;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    /* Fallback for browsers without backdrop-filter */
+    @supports not (backdrop-filter: blur(10px)) {
+      .mobile-menu {
+        background: rgb(54, 69, 79);
+      }
+    }
+
+    /* Menu Open State */
+    .mobile-menu:not(.hidden) {
+      transform: translateX(0);
+    }
+
+    /* Menu Items Container */
+    .mobile-menu-items {
+      width: 100%;
+      gap: 0.5rem;
+    }
+
+    /* Individual Menu Items */
+    .mobile-menu .menu-item {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      padding: 0;
+      margin: 0;
+      min-height: 48px; /* Touch target */
+    }
+
+    .mobile-menu .menu-item a,
+    .mobile-menu .menu-item button {
+      font-size: 1.25rem; /* 20px */
+      font-weight: 500;
+      padding: 1rem 1.5rem;
+      color: white;
+      width: 100%;
+      text-align: left;
+      border-left: 4px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    /* Active State - Red Border */
+    .mobile-menu .menu-item.active a,
+    .mobile-menu .menu-item.active button {
+      border-left-color: #E01D22;
+      background: rgba(224, 29, 34, 0.1);
+      color: white;
+    }
+
+    /* Hover State */
+    .mobile-menu .menu-item a:hover,
+    .mobile-menu .menu-item button:hover {
+      border-left-color: #E01D22;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Sub-menu Items */
+    .mobile-menu .dropdown-menu {
+      display: flex !important;
+      flex-direction: column;
+      padding-left: 2rem;
+      margin-top: 0.5rem;
+      gap: 0.25rem;
+    }
+
+    .mobile-menu .dropdown-menu li {
+      opacity: 0;
+      animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .mobile-menu .dropdown-menu li:nth-child(1) { animation-delay: 0.5s; }
+    .mobile-menu .dropdown-menu li:nth-child(2) { animation-delay: 0.6s; }
+    .mobile-menu .dropdown-menu li:nth-child(3) { animation-delay: 0.7s; }
+    .mobile-menu .dropdown-menu li:nth-child(4) { animation-delay: 0.8s; }
+
+    .mobile-menu .dropdown-menu a {
+      font-size: 1rem; /* 16px */
+      font-weight: 400;
+      padding: 0.75rem 1rem;
+      color: rgba(255, 255, 255, 0.8);
+      border-left: 3px solid transparent;
+    }
+
+    .mobile-menu .dropdown-menu a:hover {
+      color: white;
+      border-left-color: #E01D22;
+    }
+
+    /* Dropdown is always open on mobile menu */
+    .mobile-menu .dropdown .dropdown-menu {
+      display: flex !important;
+    }
+
+    /* Safe Area for iPhone Notch */
+    .mobile-menu {
+      padding-top: max(5rem, env(safe-area-inset-top) + 3rem);
+      padding-bottom: max(2rem, env(safe-area-inset-bottom) + 1rem);
+      padding-left: max(2rem, env(safe-area-inset-left) + 1rem);
+      padding-right: max(2rem, env(safe-area-inset-right) + 1rem);
+    }
+  }
+
+  /* Fade In Up Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Desktop - No changes */
+  @media (min-width: 768px) {
+    .mobile-menu .menu-item {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>
