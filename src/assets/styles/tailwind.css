@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  /* CRITICAL FIX: Entferne Browser-Default Margins (weiße Linie oben!) */
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   /* Mobile-First: Word-Breaking für lange deutsche Wörter */
   html[lang="de"],
   html[lang="de-AT"] {
