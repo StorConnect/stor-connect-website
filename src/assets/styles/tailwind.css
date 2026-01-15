@@ -3,19 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  /* CRITICAL FIX: Entferne Browser-Default Margins (weiße Linie oben!) */
+  /* Reset browser defaults */
   html,
   body {
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Setze Background zurück auf weiß (Debug-Test abgeschlossen) */
-  html {
-    background: white !important;
-  }
-  body {
-    background: white !important;
+    margin: 0;
+    padding: 0;
   }
 
   /* Mobile-First: Word-Breaking für lange deutsche Wörter */
@@ -84,7 +76,7 @@
   }
 }
 
-/* CRITICAL FIX: Entferne ALLE Borders vom Header (weiße Linie!) */
+/* Header: Remove all borders and shadows */
 #header,
 #header *,
 #header > div,
@@ -96,7 +88,7 @@
   box-shadow: none !important;
 }
 
-/* CRITICAL FIX: Header muss am oberen Browser-Rand kleben! */
+/* Header: Fixed positioning at top */
 #header {
   position: fixed !important;
   top: 0 !important;
@@ -107,12 +99,12 @@
   z-index: 9999 !important;
 }
 
-/* Body muss Platz für fixed header machen */
+/* Body: Account for fixed header */
 body {
-  padding-top: 76px !important; /* Header Höhe */
+  padding-top: 76px !important;
 }
 
-/* Hero Section muss negative margin kompensieren */
+/* Hero section: Compensate for fixed header */
 main > section:first-child {
   margin-top: -76px !important;
   padding-top: 76px !important;
