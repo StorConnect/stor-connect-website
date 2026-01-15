@@ -139,18 +139,42 @@ const {
     const image = section?.querySelector('img');
     
     const logData = {
-      hypothesisA_sectionWidth: section?.offsetWidth,
-      hypothesisA_sectionComputedWidth: section ? window.getComputedStyle(section).width : null,
-      hypothesisA_sectionMaxWidth: section ? window.getComputedStyle(section).maxWidth : null,
-      hypothesisB_imageContainerWidth: imageContainer?.offsetWidth,
-      hypothesisC_imageWidth: image?.offsetWidth,
-      hypothesisC_imageNaturalWidth: image?.naturalWidth,
-      hypothesisD_viewportWidth: window.innerWidth,
-      hypothesisE_mainWidth: document.querySelector('main')?.offsetWidth,
-      hypothesisE_mainComputedMaxWidth: document.querySelector('main') ? window.getComputedStyle(document.querySelector('main')).maxWidth : null,
+      '🔬 HYPOTHESIS A - Section Width': {
+        offsetWidth: section?.offsetWidth,
+        computedWidth: section ? window.getComputedStyle(section).width : null,
+        computedMaxWidth: section ? window.getComputedStyle(section).maxWidth : null,
+        sectionClasses: section?.className,
+      },
+      '🔬 HYPOTHESIS B - Image Container': {
+        containerOffsetWidth: imageContainer?.offsetWidth,
+        containerComputedWidth: imageContainer ? window.getComputedStyle(imageContainer).width : null,
+        containerClasses: imageContainer?.className,
+      },
+      '🔬 HYPOTHESIS C - Image Element': {
+        imageOffsetWidth: image?.offsetWidth,
+        imageNaturalWidth: image?.naturalWidth,
+        imageComputedWidth: image ? window.getComputedStyle(image).width : null,
+        imageClasses: image?.className,
+      },
+      '🔬 HYPOTHESIS D - Viewport': {
+        viewportWidth: window.innerWidth,
+        documentWidth: document.documentElement.offsetWidth,
+      },
+      '🔬 HYPOTHESIS E - Main Container': {
+        mainWidth: document.querySelector('main')?.offsetWidth,
+        mainComputedMaxWidth: document.querySelector('main') ? window.getComputedStyle(document.querySelector('main')).maxWidth : null,
+        bodyWidth: document.body.offsetWidth,
+      },
     };
     
-    fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Hero.astro:script',message:'Hero dimensions',data:logData,timestamp:Date.now(),sessionId:'debug-session',runId:'hero-width-debug',hypothesisId:'A,B,C,D,E'})}).catch(()=>{});
+    console.log('═══════════════════════════════════════');
+    console.log('🚨 STOR CONNECT - HERO WIDTH DEBUG 🚨');
+    console.log('═══════════════════════════════════════');
+    Object.entries(logData).forEach(([key, value]) => {
+      console.log(key);
+      console.table(value);
+    });
+    console.log('═══════════════════════════════════════');
   });
   // #endregion
 </script>
