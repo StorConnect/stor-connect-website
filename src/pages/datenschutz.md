@@ -3,8 +3,6 @@ title: 'Datenschutzerklärung'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
 
-# DATENSCHUTZERKLÄRUNG
-
 ## Datenschutz gemäß DSGVO, DSG und TKG 2021
 
 ---
