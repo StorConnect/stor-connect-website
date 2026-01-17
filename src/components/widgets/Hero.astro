@@ -12,10 +12,15 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
+  mobileImage, // Optional: separates Mobile-Image
 
   id,
   bg = await Astro.slots.render('bg'),
 } = Astro.props;
+
+// #region agent log
+fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Hero.astro:20',message:'Hero Props received',data:{hasImage:!!image,hasMobileImage:!!mobileImage,mobileImageValue:mobileImage,imageValue:typeof image === 'object' ? image.src : 'string/slot',url:Astro.url.pathname},timestamp:Date.now(),sessionId:'debug-session',runId:'pre-fix',hypothesisId:'A,B,C'})}).catch(()=>{});
+// #endregion
 ---
 
 <section 
@@ -29,13 +34,40 @@ const {
         <Fragment set:html={image} />
       ) : (
         <>
-          <!-- Mobile: Vertical Hero Image (< 768px) -->
-          <img
-            src="/hero-mobile.jpg"
-            alt="STOR Connect Team und Fahrzeugflotte"
-            class="hero-image-mobile md:hidden w-full h-full object-cover object-center"
-            loading="eager"
-          />
+          {/* Mobile Image: Verwende mobileImage falls vorhanden, sonst das normale image */}
+          {mobileImage ? (
+            <>
+              {/* #region agent log */}
+              <script>fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Hero.astro:42',message:'Rendering SEPARATE mobile image',data:{mobileImage:'{mobileImage}',url:window.location.pathname},timestamp:Date.now(),sessionId:'debug-session',runId:'pre-fix',hypothesisId:'D'})}).catch(()=>{});</script>
+              {/* #endregion */}
+              
+              <!-- Separates Mobile-Image (z.B. für Startseite) -->
+              <img
+                src={mobileImage}
+                alt={image.alt || 'STOR Connect'}
+                class="hero-image-mobile md:hidden w-full h-full object-cover object-center"
+                loading="eager"
+              />
+            </>
+          ) : (
+            <>
+              {/* #region agent log */}
+              <script>fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'Hero.astro:58',message:'Using SAME image for mobile (no mobileImage prop)',data:{imageSrc:'{typeof image === "object" && image.src}',url:window.location.pathname},timestamp:Date.now(),sessionId:'debug-session',runId:'pre-fix',hypothesisId:'D'})}).catch(()=>{});</script>
+              {/* #endregion */}
+              
+              <!-- Gleiches Bild für Mobile wie Desktop (für Unterseiten) -->
+              <Image
+                class="hero-image-mobile md:hidden w-full h-full object-cover object-center"
+                widths={[640, 768, 1024]}
+                sizes="100vw"
+                loading="eager"
+                format="webp"
+                width={1024}
+                height={768}
+                {...image}
+              />
+            </>
+          )}
           
           <!-- Desktop: Horizontal Hero Image (>= 768px) -->
           <Image
