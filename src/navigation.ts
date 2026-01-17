@@ -33,7 +33,7 @@ export const headerData = {
     },
     {
       text: 'Kontakt',
-      href: 'mailto:info@stor-bau.at',
+      href: 'mailto:info@stor-connect.at',
     },
   ],
   actions: [],
@@ -54,7 +54,7 @@ export const footerData = {
       title: 'Unternehmen',
       links: [
         { text: 'Über uns', href: getPermalink('/ueber-uns') },
-        { text: 'Kontakt', href: 'mailto:info@stor-bau.at' },
+        { text: 'Kontakt', href: 'mailto:info@stor-connect.at' },
       ],
     },
     {

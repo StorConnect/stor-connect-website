@@ -1,6 +1,6 @@
 site:
   name: STOR Connect GmbH
-  site: 'https://astrowind-two-hazel.vercel.app'
+  site: 'https://stor-connect.at'
   base: '/'
   trailingSlash: false
 

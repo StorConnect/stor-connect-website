@@ -14,7 +14,7 @@ Neubaugürtel 35/Top 44
 1150 Wien  
 Österreich
 
-E-Mail: info@stor-bau.at
+E-Mail: info@stor-connect.at
 
 Geschäftsführer: Stefan Sator
 
@@ -211,7 +211,7 @@ Neubaugürtel 35/Top 44
 1150 Wien  
 Österreich
 
-E-Mail: info@stor-bau.at
+E-Mail: info@stor-connect.at
 
 ---
 
