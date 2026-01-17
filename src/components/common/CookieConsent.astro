@@ -31,6 +31,10 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
           enabled: true,
           readOnly: true
         },
+        functional: {
+          enabled: false,
+          readOnly: false
+        },
         analytics: {
           enabled: false,
           readOnly: false
@@ -47,11 +51,11 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
         translations: {
           de: {
             consentModal: {
-              title: '🍪 Cookie-Einstellungen',
-              description: 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und deine Erfahrung zu verbessern.',
-              acceptAllBtn: 'Alle Cookies akzeptieren',
+              title: 'Diese Website verwendet Cookies',
+              description: 'Wir verwenden Cookies und ähnliche Technologien, um Ihnen ein optimales Website-Erlebnis zu bieten. Einige Cookies sind für den Betrieb der Website technisch notwendig. Andere Cookies helfen uns, die Website und Ihr Nutzererlebnis zu verbessern.<br><br>Sie können selbst entscheiden, welche Cookie-Kategorien Sie zulassen möchten. Weitere Informationen finden Sie in unserer Datenschutzerklärung.',
+              acceptAllBtn: 'Alle akzeptieren',
               acceptNecessaryBtn: 'Nur notwendige',
-              showPreferencesBtn: 'Benutzerdefiniert',
+              showPreferencesBtn: 'Einstellungen',
               footer: `
                 <a href="/impressum">Impressum</a>
                 <a href="/datenschutz">Datenschutz</a>
@@ -66,21 +70,26 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
               sections: [
                 {
                   title: 'Cookie-Nutzung',
-                  description: 'Wir verwenden Cookies, um die grundlegenden Funktionen der Website zu gewährleisten und um Ihr Online-Erlebnis zu verbessern.'
+                  description: 'Wir verwenden Cookies, um die grundlegenden Funktionen der Website zu gewährleisten und um Ihr Online-Erlebnis zu verbessern. Sie können für jede Kategorie wählen, ob Sie sie aktivieren oder deaktivieren möchten.'
                 },
                 {
-                  title: 'Notwendige Cookies',
-                  description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden.',
+                  title: 'Notwendige Cookies <span class="pm__badge">Immer aktiv</span>',
+                  description: 'Diese Cookies sind für die Grundfunktionen der Website erforderlich und können nicht deaktiviert werden. Sie werden in der Regel nur als Reaktion auf von Ihnen vorgenommene Aktionen gesetzt, die einer Dienstanforderung entsprechen, wie z.B. das Festlegen Ihrer Datenschutzeinstellungen, das Anmelden oder das Ausfüllen von Formularen.<br><br><strong>Speicherdauer:</strong> Sitzungsbezogen / bis zu 1 Jahr',
                   linkedCategory: 'necessary'
                 },
                 {
-                  title: 'Analyse-Cookies',
-                  description: 'Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren.',
+                  title: 'Funktionale Cookies',
+                  description: 'Diese Cookies ermöglichen erweiterte Funktionen und Personalisierung. Sie können von uns oder von Drittanbietern gesetzt werden, deren Dienste wir auf unseren Seiten verwenden. Wenn Sie diese Cookies nicht zulassen, funktionieren einige oder alle dieser Dienste möglicherweise nicht ordnungsgemäß.<br><br><strong>Speicherdauer:</strong> bis zu 1 Jahr',
+                  linkedCategory: 'functional'
+                },
+                {
+                  title: 'Analytische Cookies',
+                  description: 'Diese Cookies ermöglichen es uns, Besuche und Traffic-Quellen zu zählen, damit wir die Leistung unserer Website messen und verbessern können. Sie helfen uns zu verstehen, welche Seiten am beliebtesten und welche am wenigsten beliebt sind, und zu sehen, wie sich Besucher auf der Website bewegen.<br><br><strong>Hinweis:</strong> STOR Connect verwendet derzeit KEINE Analytics-Tools.',
                   linkedCategory: 'analytics'
                 },
                 {
                   title: 'Marketing-Cookies',
-                  description: 'Diese Cookies ermöglichen erweiterte Funktionalität und Personalisierung.',
+                  description: 'Diese Cookies können über unsere Website von unseren Werbepartnern gesetzt werden. Sie können von diesen Unternehmen verwendet werden, um ein Profil Ihrer Interessen zu erstellen und Ihnen relevante Anzeigen auf anderen Websites zu zeigen.<br><br><strong>Hinweis:</strong> STOR Connect verwendet derzeit KEINE Marketing-Tools.',
                   linkedCategory: 'marketing'
                 }
               ]
