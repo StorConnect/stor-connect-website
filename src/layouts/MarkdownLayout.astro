@@ -17,12 +17,41 @@ const metadata: MetaData = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-4 pt-32 pb-16 sm:px-6 mx-auto lg:px-8 lg:pt-40 lg:pb-20 max-w-4xl">
-    <h1 class="font-bold font-heading text-4xl md:text-5xl leading-tighter tracking-tighter">{frontmatter.title}</h1>
+  <section class="px-4 pt-32 pb-16 sm:px-6 mx-auto lg:px-8 lg:pt-40 lg:pb-20 max-w-4xl" id="markdown-section">
+    <h1 class="font-bold font-heading text-4xl md:text-5xl leading-tighter tracking-tighter" id="markdown-h1">{frontmatter.title}</h1>
     <div
       class="mx-auto prose prose-lg max-w-4xl dark:prose-invert dark:prose-headings:text-slate-300 prose-md prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg mt-8"
     >
       <slot />
     </div>
   </section>
+
+  <!-- #region agent log -->
+  <script>
+    fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MarkdownLayout.astro:init',message:'Debug audit started',data:{},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'INIT'})}).catch(()=>{});
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const header = document.querySelector('#header');
+      const section = document.querySelector('#markdown-section');
+      const h1 = document.querySelector('#markdown-h1');
+      
+      // #region agent log
+      const headerHeight = header ? header.offsetHeight : 0;
+      const headerStyles = header ? window.getComputedStyle(header) : null;
+      const sectionStyles = section ? window.getComputedStyle(section) : null;
+      const h1Styles = h1 ? window.getComputedStyle(h1) : null;
+      const h1Rect = h1 ? h1.getBoundingClientRect() : null;
+      const headerRect = header ? header.getBoundingClientRect() : null;
+
+      fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MarkdownLayout.astro:DOMContentLoaded',message:'Header dimensions',data:{height:headerHeight,position:headerStyles?.position,top:headerStyles?.top,zIndex:headerStyles?.zIndex,bottom:headerRect?.bottom},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'A'})}).catch(()=>{});
+      
+      fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MarkdownLayout.astro:DOMContentLoaded',message:'Section padding',data:{paddingTop:sectionStyles?.paddingTop,marginTop:sectionStyles?.marginTop,position:sectionStyles?.position},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'B'})}).catch(()=>{});
+      
+      fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MarkdownLayout.astro:DOMContentLoaded',message:'H1 position and margins',data:{marginTop:h1Styles?.marginTop,marginBottom:h1Styles?.marginBottom,top:h1Rect?.top,bottom:h1Rect?.bottom},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'C'})}).catch(()=>{});
+      
+      fetch('http://127.0.0.1:7243/ingest/040cab7d-6d47-4d89-9978-7fcd3b1d787e',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'MarkdownLayout.astro:DOMContentLoaded',message:'Overlap calculation',data:{headerBottom:headerRect?.bottom,h1Top:h1Rect?.top,isOverlapping:(headerRect?.bottom || 0) > (h1Rect?.top || 0),gap:(h1Rect?.top || 0) - (headerRect?.bottom || 0)},timestamp:Date.now(),sessionId:'debug-session',hypothesisId:'D'})}).catch(()=>{});
+      // #endregion
+    });
+  </script>
+  <!-- #endregion -->
 </Layout>
