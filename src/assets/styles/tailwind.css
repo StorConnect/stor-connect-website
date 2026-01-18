@@ -71,6 +71,10 @@
     @apply btn;
   }
 
+  .btn-outline {
+    @apply btn font-semibold text-white border-primary border-2 bg-transparent hover:bg-primary/10 dark:text-white dark:border-primary dark:hover:bg-primary/10;
+  }
+
   .btn-tertiary {
     @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
   }
