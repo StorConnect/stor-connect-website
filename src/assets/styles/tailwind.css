@@ -109,9 +109,15 @@ body {
 }
 
 /* Hero section: Compensate for fixed header */
-main > section:first-child {
+main > section:first-child:not(#markdown-section) {
   margin-top: -76px !important;
   padding-top: 76px !important;
+}
+
+/* Markdown sections need more space because header is 95px tall */
+#markdown-section {
+  margin-top: 0 !important;
+  padding-top: 120px !important; /* 95px header + 25px gap */
 }
 
 #header.scroll > div:first-child {
